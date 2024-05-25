@@ -5,9 +5,6 @@ cors:
 spring:
   application:
     name: eng-soft-tmdb
-  mvc:
-    locale: pt_BR
-    locale-resolver: fixed
   datasource:
     url: jdbc:mysql://localhost:3306/themoviedb?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&autoReconnect=true&useSSL=false
     username: root
@@ -22,12 +19,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
       show-sql: false
-  messages:
-    encoding: UTF-8
-    basename: messages_pt_BR
+  flyway:
+    enabled: false
 server:
   port: 8080
-  servlet:
-    context-path: /api
-file:
-  upload-dir: /home/runner/work/eng-soft-fp-api/UploadDir
+#  servlet:
+#    context-path: /api
