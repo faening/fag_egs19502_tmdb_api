@@ -1,4 +1,4 @@
-package com.github.faening.engsofttmdb.data.model
+package com.github.faening.engsofttmdb.api.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

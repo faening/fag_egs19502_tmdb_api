@@ -1,4 +1,4 @@
-package com.github.faening.engsofttmdb.config.interceptor
+package com.github.faening.engsofttmdb.api.config.interceptor
 
 import okhttp3.Interceptor
 

@@ -1,6 +1,6 @@
-package com.github.faening.engsofttmdb.data.service
+package com.github.faening.engsofttmdb.api.service
 
-import com.github.faening.engsofttmdb.data.model.*
+import com.github.faening.engsofttmdb.api.model.*
 import org.springframework.stereotype.Service
 import retrofit2.Call
 import retrofit2.http.GET
