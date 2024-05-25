@@ -30,6 +30,8 @@ dependencies {
 	// Kotlin
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+	runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.1")
 
 	// MySQL
 	runtimeOnly("com.mysql:mysql-connector-j")
@@ -39,9 +41,13 @@ dependencies {
 	implementation("org.flywaydb:flyway-mysql")
 
 	// Retrofit2
-	implementation("com.squareup.retrofit2:retrofit:2.11.0")
-	implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 	implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+	// Reactor
+	implementation("io.projectreactor:reactor-core:3.6.6")
+	implementation("org.reactivestreams:reactive-streams:1.0.4")
 
 	// JUnit 5
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
