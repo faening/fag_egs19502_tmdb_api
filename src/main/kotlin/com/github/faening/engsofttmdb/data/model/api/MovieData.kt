@@ -1,9 +1,9 @@
-package com.github.faening.engsofttmdb.api.model
+package com.github.faening.engsofttmdb.data.model.api
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class TvData(
+data class MovieData(
     @SerializedName("adult")
     val adult: Boolean,
 
@@ -16,14 +16,11 @@ data class TvData(
     @SerializedName("id")
     val id: Int,
 
-    @SerializedName("origin_country")
-    val originCountry: List<String>,
-
     @SerializedName("original_language")
     val originalLanguage: String,
 
-    @SerializedName("original_name")
-    val originalName: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
 
     @SerializedName("overview")
     val overview: String,
@@ -34,15 +31,19 @@ data class TvData(
     @SerializedName("poster_path")
     val posterPath: String,
 
-    @SerializedName("first_air_date")
-    val firstAirDate: String,
+    @SerializedName("release_date")
+    val releaseDate: String,
 
-    @SerializedName("name")
-    val name: String,
+    @SerializedName("title")
+    val title: String,
+
+    @SerializedName("video")
+    val video: Boolean,
 
     @SerializedName("vote_average")
     val voteAverage: Double,
 
     @SerializedName("vote_count")
-    val voteCount: Int,
+    val voteCount: Int
 ) : Serializable
+

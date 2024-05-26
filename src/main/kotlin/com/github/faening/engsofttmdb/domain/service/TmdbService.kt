@@ -1,7 +1,7 @@
 package com.github.faening.engsofttmdb.domain.service
 
-import com.github.faening.engsofttmdb.api.model.*
-import com.github.faening.engsofttmdb.api.service.TmdbService
+import com.github.faening.engsofttmdb.data.service.TmdbService
+import com.github.faening.engsofttmdb.data.model.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

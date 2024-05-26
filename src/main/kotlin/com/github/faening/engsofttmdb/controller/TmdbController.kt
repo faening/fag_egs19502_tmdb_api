@@ -1,6 +1,6 @@
 package com.github.faening.engsofttmdb.controller
 
-import com.github.faening.engsofttmdb.api.model.*
+import com.github.faening.engsofttmdb.data.model.api.*
 import com.github.faening.engsofttmdb.domain.service.TmdbService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
