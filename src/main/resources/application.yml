@@ -14,13 +14,13 @@ spring:
     allow-circular-references: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
       show-sql: false
   flyway:
-    enabled: false
+    enabled: true
 server:
   port: 8080
 #  servlet:
