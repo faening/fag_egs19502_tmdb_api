@@ -34,11 +34,11 @@ dependencies {
 	runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.1")
 
 	// MySQL
-	runtimeOnly("com.mysql:mysql-connector-j")
+	runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
 
 	// Flyway
-	implementation("org.flywaydb:flyway-core")
-	implementation("org.flywaydb:flyway-mysql")
+//	implementation("org.flywaydb:flyway-core")
+//	implementation("org.flywaydb:flyway-mysql")
 
 	// Retrofit2
 	implementation("com.squareup.retrofit2:retrofit:2.9.0")
