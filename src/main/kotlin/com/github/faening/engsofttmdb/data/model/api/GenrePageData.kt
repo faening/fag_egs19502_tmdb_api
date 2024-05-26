@@ -5,5 +5,5 @@ import java.io.Serializable
 
 data class GenrePageData(
     @SerializedName("genres")
-    val genres: List<GenreData>
+    val genres: List<GenreApiData>
 ) : Serializable

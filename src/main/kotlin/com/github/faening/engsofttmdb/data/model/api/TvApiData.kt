@@ -3,7 +3,7 @@ package com.github.faening.engsofttmdb.data.model.api
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class TvData(
+data class TvApiData(
     @SerializedName("adult")
     val adult: Boolean,
 

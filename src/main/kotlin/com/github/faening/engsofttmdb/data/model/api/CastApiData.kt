@@ -3,7 +3,7 @@ package com.github.faening.engsofttmdb.data.model.api
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class CrewData(
+data class CastApiData(
     @SerializedName("adult")
     val adult : Boolean,
 
@@ -28,12 +28,15 @@ data class CrewData(
     @SerializedName("profile_path")
     val profilePath : String,
 
+    @SerializedName("cast_id")
+    val castId : Int,
+
+    @SerializedName("character")
+    val character : String,
+
     @SerializedName("credit_id")
     val creditId : String,
 
-    @SerializedName("department")
-    val department : String,
-
-    @SerializedName("job")
-    val job : String
+    @SerializedName("order")
+    val order : Int
 ) : Serializable

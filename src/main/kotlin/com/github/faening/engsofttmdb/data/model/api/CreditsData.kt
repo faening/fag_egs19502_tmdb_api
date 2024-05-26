@@ -8,9 +8,9 @@ data class CreditsData(
     val id : Int,
 
     @SerializedName("cast")
-    val cast : List<CastData>,
+    val cast : List<CastApiData>,
 
     @SerializedName("crew")
-    val crew : List<CrewData>
+    val crew : List<CrewApiData>
 ) : Serializable
 

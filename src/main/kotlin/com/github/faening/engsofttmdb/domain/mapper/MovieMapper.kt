@@ -1,13 +1,13 @@
 package com.github.faening.engsofttmdb.domain.mapper
 
-import com.github.faening.engsofttmdb.data.model.api.MovieData
+import com.github.faening.engsofttmdb.data.model.api.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.domain.model.Movie
 
 @Suppress("unused")
-class MovieMapper : BaseMapper<MovieData, MovieEntity, Movie>() {
+class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
 
-    override fun fromApiDataToEntity(data: MovieData): MovieEntity {
+    override fun fromApiDataToEntity(data: MovieApiData): MovieEntity {
         return MovieEntity(
             id = null,
             adult = data.adult,

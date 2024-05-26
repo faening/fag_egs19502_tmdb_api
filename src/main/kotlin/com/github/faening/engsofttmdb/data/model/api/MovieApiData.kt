@@ -3,7 +3,7 @@ package com.github.faening.engsofttmdb.data.model.api
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class MovieData(
+data class MovieApiData(
     @SerializedName("adult")
     val adult: Boolean,
 

@@ -3,7 +3,7 @@ package com.github.faening.engsofttmdb.data.model.api
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class ResponsePageData<T>(
+data class ResponsePageApiData<T>(
     @SerializedName("page")
     val page: Int,
 

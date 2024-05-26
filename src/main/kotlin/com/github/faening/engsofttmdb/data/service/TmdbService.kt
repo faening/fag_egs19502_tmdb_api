@@ -10,13 +10,13 @@ import retrofit2.http.Path
 interface TmdbService {
 
     @GET("authentication")
-    fun authentication(): Call<AuthenticationData>
+    fun authentication(): Call<AuthenticationApiData>
 
     @GET("discover/movie")
-    fun getAllMovies(): Call<ResponsePageData<MovieData>>
+    fun getAllMovies(): Call<ResponsePageApiData<MovieApiData>>
 
     @GET("discover/tv")
-    fun getAllTvShows(): Call<ResponsePageData<TvData>>
+    fun getAllTvShows(): Call<ResponsePageApiData<TvApiData>>
 
     @GET("genre/movie/list")
     fun getAllGenres(): Call<GenrePageData>
@@ -25,6 +25,6 @@ interface TmdbService {
     fun getMovieCredits(@Path("movie_id") movieId: Int): Call<CreditsData>
 
     @GET("movie/{movie_id}/reviews")
-    fun getMovieReviews(@Path("movie_id") movieId: Int): Call<ResponsePageData<ReviewData>>
+    fun getMovieReviews(@Path("movie_id") movieId: Int): Call<ResponsePageApiData<ReviewData>>
 
 }

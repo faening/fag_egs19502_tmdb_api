@@ -3,7 +3,7 @@ package com.github.faening.engsofttmdb.data.model.api
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class AuthorData(
+data class AuthorApiData(
     @SerializedName("name")
     val name: String,
 

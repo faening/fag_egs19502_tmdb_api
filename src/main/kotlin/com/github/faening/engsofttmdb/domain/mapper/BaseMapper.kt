@@ -3,16 +3,16 @@ package com.github.faening.engsofttmdb.domain.mapper
 /**
  * Esta classe é responsável por mapear os dados entre a camada de domínio e a camada de dados.
  *
- * @param D (Data) Tipo de dado obtido da API.
+ * @param A (API Data) Tipo de dado obtido da API.
  * @param E (Entity) Tipo de dado armazenado no banco de dados.
- * @param V (Value Object) Tipo de dado utilizado na camada de domínio.
+ * @param D (Domain Object) Tipo de dado utilizado na camada de domínio.
  */
-abstract class BaseMapper<D, E, V> {
+abstract class BaseMapper<A, E, D> {
 
-    abstract fun fromApiDataToEntity(data: D): E
+    abstract fun fromApiDataToEntity(data: A): E
 
-    abstract fun fromEntityToDomain(entity: E): V
+    abstract fun fromEntityToDomain(entity: E): D
 
-    abstract fun fromDomainToEntity(domain: V): E
+    abstract fun fromDomainToEntity(domain: D): E
 
 }

@@ -8,7 +8,7 @@ data class ReviewData(
     val author: String,
 
     @SerializedName("author_details")
-    val authorDetails: AuthorData,
+    val authorDetails: AuthorApiData,
 
     @SerializedName("content")
     val content: String,

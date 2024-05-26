@@ -17,17 +17,17 @@ class TmdbController @Autowired constructor(
 ) {
 
     @GetMapping("/authenticate")
-    fun authentication() : ResponseEntity<AuthenticationData> {
+    fun authentication() : ResponseEntity<AuthenticationApiData> {
         return ResponseEntity.ok(tmdbService.authentication())
     }
 
     @GetMapping("/movies")
-    fun getAllMovies(): ResponseEntity<List<MovieData>> {
+    fun getAllMovies(): ResponseEntity<List<MovieApiData>> {
         return ResponseEntity.ok(tmdbService.getAllMovies())
     }
 
     @GetMapping("/tv")
-    fun getAllTvShows(): ResponseEntity<List<TvData>> {
+    fun getAllTvShows(): ResponseEntity<List<TvApiData>> {
         return ResponseEntity.ok(tmdbService.getAllTvShows())
     }
 

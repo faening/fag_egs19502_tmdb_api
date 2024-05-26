@@ -15,7 +15,7 @@ class TmdbService @Autowired constructor(
      *
      * @return Retorna um objeto do tipo AuthenticationData.
      */
-    fun authentication(): AuthenticationData? {
+    fun authentication(): AuthenticationApiData? {
         val call = tmdbService.authentication()
         return try {
             val response = call.execute()
@@ -35,20 +35,20 @@ class TmdbService @Autowired constructor(
      *
      * @return Retorna uma lista de objetos do tipo MovieData.
      */
-    fun getAllMovies(): List<MovieData> {
-        var movieData = emptyList<MovieData>()
+    fun getAllMovies(): List<MovieApiData> {
+        var movieApiData = emptyList<MovieApiData>()
         val call = tmdbService.getAllMovies()
 
         try {
             val response = call.execute()
             if (response.isSuccessful) {
-                movieData = response.body()?.results ?: emptyList()
+                movieApiData = response.body()?.results ?: emptyList()
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        return movieData
+        return movieApiData
     }
 
     /**
@@ -56,20 +56,20 @@ class TmdbService @Autowired constructor(
      *
      * @return Retorna uma lista de objetos do tipo TvData.
      */
-    fun getAllTvShows(): List<TvData> {
-        var tvData = emptyList<TvData>()
+    fun getAllTvShows(): List<TvApiData> {
+        var tvApiData = emptyList<TvApiData>()
         val call = tmdbService.getAllTvShows()
 
         try {
             val response = call.execute()
             if (response.isSuccessful) {
-                tvData = response.body()?.results ?: emptyList()
+                tvApiData = response.body()?.results ?: emptyList()
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        return tvData
+        return tvApiData
     }
 
     /**
@@ -123,7 +123,7 @@ class TmdbService @Autowired constructor(
      */
     fun getMovieReviews(movieId: Int): ReviewData {
         var reviewData = ReviewData(
-            author = "", authorDetails = AuthorData(
+            author = "", authorDetails = AuthorApiData(
                 name = "",
                 username = "",
                 avatarPath = "",
