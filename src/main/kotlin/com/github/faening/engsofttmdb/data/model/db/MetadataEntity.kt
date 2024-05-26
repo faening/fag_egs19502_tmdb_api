@@ -1,7 +1,6 @@
 package com.github.faening.engsofttmdb.data.model.db
 
-import jakarta.persistence.Column
-import jakarta.persistence.Embeddable
+import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -9,11 +8,11 @@ import java.time.LocalDateTime
 @Suppress("unused")
 @Embeddable
 data class MetadataEntity(
-    @Column(name = "created_at", updatable = false, nullable = false)
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime?,
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     @CreationTimestamp
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime?
 ) : Serializable
