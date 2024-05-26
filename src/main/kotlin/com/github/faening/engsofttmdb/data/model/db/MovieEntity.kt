@@ -21,8 +21,8 @@ data class MovieEntity(
     @Column(name = "genre_ids", nullable = false, length = 1000)
     val genreIds: List<Int>,
 
-    @Column(name = "id_tmdb", columnDefinition = "BOOLEAN DEFAULT NULL")
-    val idTmdb: Int?,
+    @Column(name = "tmdb_id", columnDefinition = "BOOLEAN DEFAULT NULL")
+    val tmdbId: Int?,
 
     @Column(name = "original_language", length = 10)
     val originalLanguage: String,
