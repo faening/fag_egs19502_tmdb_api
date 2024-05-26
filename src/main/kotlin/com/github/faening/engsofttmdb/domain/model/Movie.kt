@@ -4,21 +4,21 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Movie(
-    val id: Long?,
-    val adult: Boolean,
+    val id: Long? = null,
+    val adult: Boolean? = null,
     val backdropPath: String,
     val genreIds: List<Int>,
-    val idTmdb: Int,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Double,
+    val idTmdb: Int? = null,
+    val originalLanguage: String? = null,
+    val originalTitle: String? = null,
+    val overview: String? = null,
+    val popularity: Double? = null,
     val posterPath: String,
     val releaseDate: String,
     val title: String,
-    val video: Boolean?,
-    val voteAverage: Double?,
-    val voteCount: Int?,
-    val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?
+    val video: Boolean? = null,
+    val voteAverage: Double? = null,
+    val voteCount: Int? = null,
+    val createdAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null
 ) : Serializable
