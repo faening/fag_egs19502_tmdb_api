@@ -1,6 +1,7 @@
 package com.github.faening.engsofttmdb.domain.model
 
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class Movie(
@@ -14,7 +15,7 @@ data class Movie(
     val overview: String? = null,
     val popularity: Double? = null,
     val posterPath: String,
-    val releaseDate: String,
+    val releaseDate: LocalDate,
     val title: String,
     val video: Boolean? = null,
     val voteAverage: Double? = null,

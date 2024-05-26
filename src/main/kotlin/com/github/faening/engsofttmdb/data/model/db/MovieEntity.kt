@@ -1,7 +1,9 @@
 package com.github.faening.engsofttmdb.data.model.db
 
+import com.github.faening.engsofttmdb.domain.enumeration.LanguageEnum
 import jakarta.persistence.*
 import java.io.Serializable
+import java.time.LocalDate
 
 @Suppress("unused")
 @Entity
@@ -12,46 +14,52 @@ data class MovieEntity(
     @Column(name = "id")
     val id: Long?,
 
+    @Column(name = "tmdb_id", columnDefinition = "DEFAULT NULL")
+    val tmdbId: Int?,
+
     @Column(name = "adult", columnDefinition = "BOOLEAN DEFAULT FALSE")
     val adult: Boolean,
 
-    @Column(name = "backdrop_path", nullable = false, length = 1000)
+    @Column(name = "backdrop_path", nullable = false, length = 255)
     val backdropPath: String,
 
-    @Column(name = "genre_ids", nullable = false, length = 1000)
-    val genreIds: List<Int>,
+    @ManyToMany(cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "movie_genre",
+        joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
+    )
+    val genres: Set<GenreEntity> = HashSet(),
 
-    @Column(name = "tmdb_id", columnDefinition = "BOOLEAN DEFAULT NULL")
-    val tmdbId: Int?,
+    @Column(name = "original_language")
+    @Enumerated(EnumType.STRING)
+    val originalLanguage: LanguageEnum,
 
-    @Column(name = "original_language", length = 10)
-    val originalLanguage: String,
-
-    @Column(name = "original_title", length = 255)
+    @Column(name = "original_title", length = 100, columnDefinition = "DEFAULT NULL")
     val originalTitle: String,
 
-    @Column(name = "overview", length = 1000)
+    @Column(name = "overview", length = 255, columnDefinition = "DEFAULT NULL")
     val overview: String,
 
-    @Column(name = "popularity")
+    @Column(name = "popularity", columnDefinition = "DEFAULT NULL")
     val popularity: Double,
 
-    @Column(name = "poster_path", nullable = false, length = 1000)
+    @Column(name = "poster_path", nullable = false, length = 255)
     val posterPath: String,
 
-    @Column(name = "release_date", nullable = false, length = 10)
-    val releaseDate: String,
+    @Column(name = "release_date", nullable = false)
+    val releaseDate: LocalDate,
 
-    @Column(name = "title", nullable = false, length = 255)
+    @Column(name = "title", nullable = false, length = 100)
     val title: String,
 
     @Column(name = "video", columnDefinition = "BOOLEAN DEFAULT FALSE")
     val video: Boolean,
 
-    @Column(name = "vote_average")
+    @Column(name = "vote_average", columnDefinition = "DEFAULT NULL")
     val voteAverage: Double,
 
-    @Column(name = "vote_count")
+    @Column(name = "vote_count", columnDefinition = "DEFAULT NULL")
     val voteCount: Int,
 
     @Embedded

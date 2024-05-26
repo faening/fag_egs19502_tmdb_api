@@ -2,7 +2,9 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
+import com.github.faening.engsofttmdb.domain.enumeration.LanguageEnum
 import com.github.faening.engsofttmdb.domain.model.Movie
+import java.time.LocalDate
 
 @Suppress("unused")
 class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
@@ -12,14 +14,14 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
             id = null,
             adult = data.adult,
             backdropPath = data.backdropPath,
-            genreIds = data.genreIds,
+            genres = emptySet(),
             tmdbId = data.id,
-            originalLanguage = data.originalLanguage,
+            originalLanguage = LanguageEnum.valueOf(data.originalLanguage),
             originalTitle = data.originalTitle,
             overview = data.overview,
             popularity = data.popularity,
             posterPath = data.posterPath,
-            releaseDate = data.releaseDate,
+            releaseDate = LocalDate.parse(data.releaseDate),
             title = data.title,
             video = data.video,
             voteAverage = data.voteAverage,
@@ -28,14 +30,15 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
         )
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun fromEntityToDomain(entity: MovieEntity): Movie {
         return Movie(
             id = entity.id,
             adult = entity.adult,
             backdropPath = entity.backdropPath,
-            genreIds = entity.genreIds,
+            genreIds =  entity.genres.map { it.id } as List<Int>,
             idTmdb = entity.tmdbId ?: 0,
-            originalLanguage = entity.originalLanguage,
+            originalLanguage = entity.originalLanguage.code,
             originalTitle = entity.originalTitle,
             overview = entity.overview,
             popularity = entity.popularity,
@@ -55,9 +58,9 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
             id = domain.id ?: 0,
             adult = domain.adult ?: false,
             backdropPath = domain.backdropPath,
-            genreIds = domain.genreIds,
+            genres = emptySet(),
             tmdbId = domain.idTmdb,
-            originalLanguage = domain.originalLanguage ?: "",
+            originalLanguage = LanguageEnum.valueOf(domain.originalLanguage ?: ""),
             originalTitle = domain.originalTitle ?: "",
             overview = domain.overview ?: "",
             popularity = domain.popularity ?: 0.0,
