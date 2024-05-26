@@ -27,7 +27,7 @@ class RetrofitConfiguration {
         .build()
 
     @Bean
-    fun tmdbService(): TmdbService {
+    fun createTmdbService(): TmdbService {
         return retrofit.create(TmdbService::class.java)
     }
 
