@@ -1,6 +1,5 @@
 package com.github.faening.engsofttmdb.data.model.db
 
-import com.github.faening.engsofttmdb.domain.enumeration.LanguageEnum
 import jakarta.persistence.*
 import java.io.Serializable
 import java.time.LocalDate
@@ -60,6 +59,22 @@ data class MovieEntity(
 
     @Column(name = "vote_count", columnDefinition = "DEFAULT NULL")
     val voteCount: Int,
+
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "movie_cast",
+        joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "cast_id", referencedColumnName = "id")]
+    )
+    val cast: Set<CastEntity> = HashSet(),
+
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "movie_crew",
+        joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "crew_id", referencedColumnName = "id")]
+    )
+    val crew: Set<CrewEntity> = HashSet(),
 
     @Embedded
     @AttributeOverrides(

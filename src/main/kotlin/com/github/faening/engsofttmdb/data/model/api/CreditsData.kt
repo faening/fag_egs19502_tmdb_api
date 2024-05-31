@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class CreditsData(
     @SerializedName("id")
-    val id : Int,
+    val id : Long,
 
     @SerializedName("cast")
     val cast : List<CastApiData>,
