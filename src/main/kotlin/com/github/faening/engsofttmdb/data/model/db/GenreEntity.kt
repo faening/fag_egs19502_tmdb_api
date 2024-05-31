@@ -18,7 +18,7 @@ data class GenreEntity(
     @Column(name = "name", nullable = false, length = 100)
     val name: String,
 
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
     val movies: Set<MovieEntity> = HashSet(),
 
     @Embedded

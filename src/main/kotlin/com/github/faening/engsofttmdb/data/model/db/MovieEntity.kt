@@ -23,22 +23,21 @@ data class MovieEntity(
     @Column(name = "backdrop_path", nullable = false, length = 255)
     val backdropPath: String,
 
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(
         name = "movie_genre",
         joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
-    val genres: Set<GenreEntity> = HashSet(),
+    var genres: Set<GenreEntity> = HashSet(),
 
-    @Column(name = "original_language")
-    @Enumerated(EnumType.STRING)
-    val originalLanguage: LanguageEnum,
+    @Column(name = "original_language", length = 10, columnDefinition = "DEFAULT NULL")
+    val originalLanguage: String,
 
     @Column(name = "original_title", length = 100, columnDefinition = "DEFAULT NULL")
     val originalTitle: String,
 
-    @Column(name = "overview", length = 255, columnDefinition = "DEFAULT NULL")
+    @Column(name = "overview", length = 1000, columnDefinition = "DEFAULT NULL")
     val overview: String,
 
     @Column(name = "popularity", columnDefinition = "DEFAULT NULL")

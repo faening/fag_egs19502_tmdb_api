@@ -2,7 +2,8 @@ package com.github.faening.engsofttmdb.domain.enumeration
 
 @Suppress("unused")
 enum class LanguageEnum(val code: String) {
-    BRAZILIAN_PORTUGUESE("pt_br"),
+    PORTUGUESE("pt"),
+    BRAZILIAN_PORTUGUESE("pt-br"),
     ENGLISH("en"),
     SPANISH("es"),
     FRENCH("fr"),
@@ -11,5 +12,11 @@ enum class LanguageEnum(val code: String) {
     JAPANESE("ja"),
     KOREAN("ko"),
     MANDARIN("zh"),
-    RUSSIAN("ru")
+    RUSSIAN("ru");
+
+    companion object {
+        fun fromCode(code: String): LanguageEnum {
+            return entries.first { it.code == code }
+        }
+    }
 }

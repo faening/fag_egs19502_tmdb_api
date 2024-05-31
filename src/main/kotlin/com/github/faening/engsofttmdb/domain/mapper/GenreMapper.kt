@@ -3,8 +3,10 @@ package com.github.faening.engsofttmdb.domain.mapper
 import com.github.faening.engsofttmdb.data.model.api.GenreApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.domain.model.Genre
+import org.springframework.stereotype.Service
 
 @Suppress("unused")
+@Service
 class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre>() {
 
     override fun fromApiDataToEntity(data: GenreApiData): GenreEntity {

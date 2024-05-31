@@ -2,21 +2,25 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
-import com.github.faening.engsofttmdb.domain.enumeration.LanguageEnum
+import com.github.faening.engsofttmdb.data.repository.GenreRepository
 import com.github.faening.engsofttmdb.domain.model.Movie
+import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Suppress("unused")
-class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
+@Service
+class MovieMapper(
+    private val genreRepository: GenreRepository
+) : BaseMapper<MovieApiData, MovieEntity, Movie>() {
 
     override fun fromApiDataToEntity(data: MovieApiData): MovieEntity {
-        return MovieEntity(
+        val movieEntity = MovieEntity(
             id = null,
             adult = data.adult,
             backdropPath = data.backdropPath,
             genres = emptySet(),
             tmdbId = data.id,
-            originalLanguage = LanguageEnum.valueOf(data.originalLanguage),
+            originalLanguage = data.originalLanguage,
             originalTitle = data.originalTitle,
             overview = data.overview,
             popularity = data.popularity,
@@ -28,6 +32,14 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
             voteCount = data.voteCount,
             metadata = null,
         )
+
+        // Buscar os gêneros do banco de dados que correspondem aos IDs da API
+        val genres = genreRepository.findAllById(data.genreIds)
+
+        // Vincular os gêneros ao filme
+        movieEntity.genres = genres.toSet()
+
+        return movieEntity
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -36,9 +48,9 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
             id = entity.id,
             adult = entity.adult,
             backdropPath = entity.backdropPath,
-            genreIds =  entity.genres.map { it.id } as List<Int>,
+            genreIds =  entity.genres.map { it.id } as List<Long>,
             idTmdb = entity.tmdbId ?: 0,
-            originalLanguage = entity.originalLanguage.code,
+            originalLanguage = entity.originalLanguage,
             originalTitle = entity.originalTitle,
             overview = entity.overview,
             popularity = entity.popularity,
@@ -54,13 +66,13 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
     }
 
     override fun fromDomainToEntity(domain: Movie): MovieEntity {
-        return MovieEntity(
+        val movieEntity = MovieEntity(
             id = domain.id ?: 0,
             adult = domain.adult ?: false,
             backdropPath = domain.backdropPath,
             genres = emptySet(),
             tmdbId = domain.idTmdb,
-            originalLanguage = LanguageEnum.valueOf(domain.originalLanguage ?: ""),
+            originalLanguage = domain.originalLanguage ?: "",
             originalTitle = domain.originalTitle ?: "",
             overview = domain.overview ?: "",
             popularity = domain.popularity ?: 0.0,
@@ -72,6 +84,14 @@ class MovieMapper : BaseMapper<MovieApiData, MovieEntity, Movie>() {
             voteCount = domain.voteCount ?: 0,
             metadata = null,
         )
+
+        // Buscar os gêneros do banco de dados que correspondem aos IDs da API
+        val genres = genreRepository.findAllById(domain.genreIds)
+
+        // Vincular os gêneros ao filme
+        movieEntity.genres = genres.toSet()
+
+        return movieEntity
     }
 
 }

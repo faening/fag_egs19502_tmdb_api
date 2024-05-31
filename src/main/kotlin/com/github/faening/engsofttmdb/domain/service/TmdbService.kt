@@ -1,14 +1,56 @@
 package com.github.faening.engsofttmdb.domain.service
 
-import com.github.faening.engsofttmdb.data.service.TmdbService
 import com.github.faening.engsofttmdb.data.model.api.*
+import com.github.faening.engsofttmdb.data.model.db.GenreEntity
+import com.github.faening.engsofttmdb.data.model.db.MovieEntity
+import com.github.faening.engsofttmdb.data.service.TmdbService
+import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
+import com.github.faening.engsofttmdb.domain.mapper.MovieMapper
+import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+@Suppress("unused")
 @Service
 class TmdbService @Autowired constructor(
-    private val tmdbService: TmdbService
+    private val tmdbService: TmdbService,
+    private val genreMapper: GenreMapper,
+    private val genreService: GenreService,
+    private val movieMapper: MovieMapper,
+    private val movieService: MovieService,
 ) {
+
+    @PostConstruct
+    private fun initialize() {
+        initializeGenres()
+        initializeMovies()
+    }
+
+    /**
+     * Este método realiza a inicialização dos gêneros no banco de dados.
+     * Os gêneros são buscados da API do TMDB, mapeados para entidades e salvos no banco de dados.
+     */
+    private fun initializeGenres() {
+        // Buscar os gêneros da API do TMDB
+        val apiGenres: List<GenreApiData> = getAllGenres().genres
+        // Mapear os gêneros da API para entidades
+        val apiGenresMappedToEntity: List<GenreEntity> = apiGenres.map { genre -> genreMapper.fromApiDataToEntity(genre) }
+        // Salvar os gêneros no banco de dados
+        genreService.saveAll(apiGenresMappedToEntity.map { genreMapper.fromEntityToDomain(it) })
+    }
+
+    /**
+     * Este método realiza a inicialização dos filmes no banco de dados.
+     * Os filmes são buscados da API do TMDB, mapeados para entidades e salvos no banco de dados.
+     */
+    private fun initializeMovies() {
+        // Buscar os filmes da API do TMDB
+        val apiMovies: List<MovieApiData> = getAllMovies()
+        // Mapear os filmes da API para entidades
+        val apiMoviesMappedToEntity: List<MovieEntity> = apiMovies.map { movie -> movieMapper.fromApiDataToEntity(movie) }
+        // Salvar os filmes no banco de dados
+        movieService.saveAll(apiMoviesMappedToEntity.map { movieMapper.fromEntityToDomain(it) })
+    }
 
     /**
      * Este método realiza a verificação da autenticação com a API do TMDB.

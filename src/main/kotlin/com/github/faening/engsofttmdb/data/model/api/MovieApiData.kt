@@ -11,7 +11,7 @@ data class MovieApiData(
     val backdropPath: String,
 
     @SerializedName("genre_ids")
-    val genreIds: List<Int>,
+    val genreIds: List<Long>,
 
     @SerializedName("id")
     val id: Int,
