@@ -7,8 +7,8 @@ import java.io.Serializable
 
 @Suppress("unused")
 @Entity
-@Table(name = "cast")
-data class CastEntity(
+@Table(name = "crew")
+data class CrewEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,17 +37,14 @@ data class CastEntity(
     @Column(name = "profile_path", nullable = true, length = 100)
     val profilePath: String? = "",
 
-    @Column(name = "cast_id", nullable = true)
-    val castId: Int? = 0,
-
-    @Column(name = "character", nullable = true, length = 100)
-    val character: String = "",
-
     @Column(name = "credit_id", nullable = true, length = 100)
     val creditId: String? = "",
 
-    @Column(name = "order", nullable = true, columnDefinition = "DEFAULT 0")
-    val order: Int? = 0,
+    @Column(name = "department", nullable = true, length = 100)
+    val department: String? = "",
+
+    @Column(name = "job", nullable = true, length = 100)
+    val job: String? = "",
 
     @Embedded
     @AttributeOverrides(
