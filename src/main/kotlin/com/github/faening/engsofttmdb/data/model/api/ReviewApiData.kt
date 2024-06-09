@@ -25,4 +25,3 @@ data class ReviewApiData(
     @SerializedName("url")
     val url: String
 ) : Serializable
-
