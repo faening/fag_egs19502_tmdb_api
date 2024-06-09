@@ -1,5 +1,7 @@
 package com.github.faening.engsofttmdb.controller
 
+import com.github.faening.engsofttmdb.data.model.api.MovieApiData
+import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.domain.model.Movie
 import com.github.faening.engsofttmdb.domain.service.BaseService
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,5 +12,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/movies")
 class MovieController @Autowired constructor(
-    service: BaseService<Movie, Movie>
-) : BaseController<Movie, Movie>(service) { }
+    service: BaseService<MovieEntity, Movie, Movie>
+) : BaseController<MovieEntity, Movie, Movie>(service) { }

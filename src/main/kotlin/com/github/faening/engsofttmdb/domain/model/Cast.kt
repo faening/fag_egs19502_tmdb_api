@@ -1,78 +1,31 @@
-package com.github.faening.engsofttmdb.data.model.db
+package com.github.faening.engsofttmdb.domain.model
 
-import jakarta.persistence.*
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
 import java.io.Serializable
+import java.time.LocalDateTime
 
-@Suppress("unused")
-@Entity
-@Table(name = "cast")
-data class CastEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    val id: Long?,
-
-    @Column(name = "adult", nullable = true, columnDefinition = "DEFAULT FALSE")
-    val adult: Boolean? = false,
-
-    @Column(name = "gender", nullable = false, columnDefinition = "DEFAULT 0")
-    @Min(0)
-    @Max(2)
+data class Cast(
+    val id: Long? = null,
+    val adult: Boolean? = null,
     val gender: Int = 0,
-
-    @Column(name = "tmdb_id", nullable = false)
     val tmdbId: Long = 0,
-
-    @Column(name = "known_for_department", nullable = false, length = 100)
     val knownForDepartment: String = "",
-
-    @Column(name = "name", nullable = false, length = 100)
     val name: String = "",
-
-    @Column(name = "original_name", nullable = false, length = 100)
     val originalName: String = "",
-
-    @Column(name = "popularity", nullable = true, columnDefinition = "DEFAULT 0.0")
     val popularity: Double? = 0.0,
-
-    @Column(name = "profile_path", nullable = true, length = 100)
     val profilePath: String? = "",
-
-    @Column(name = "cast_id", nullable = true)
-    val castId: Int? = 0,
-
-    @Column(name = "tmdb_character", nullable = true, length = 100)
+    val castId: Int? = null,
     val character: String = "",
-
-    @Column(name = "credit_id", nullable = true, length = 100)
     val creditId: String? = "",
-
-    @Column(name = "tmdb_order", nullable = true, columnDefinition = "DEFAULT 0")
-    val order: Int? = 0,
-
-    @ManyToMany(mappedBy = "casts", fetch = FetchType.EAGER)
-    val movies: MutableSet<MovieEntity>? = mutableSetOf(),
-
-    @Embedded
-    @AttributeOverrides(
-        AttributeOverride(name = "createdAt", column = Column(name = "created_at")),
-        AttributeOverride(name = "updatedAt", column = Column(name = "updated_at"))
-    )
-    val metadata: MetadataEntity?
+    val order: Int? = null,
+    val createdAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null
 ) : Serializable {
-
-    companion object {
-        @Suppress("ConstPropertyName")
-        private const val serialVersionUID = 1L
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as CastEntity
+        other as Cast
 
         if (id != other.id) return false
         if (adult != other.adult) return false
@@ -87,7 +40,8 @@ data class CastEntity(
         if (character != other.character) return false
         if (creditId != other.creditId) return false
         if (order != other.order) return false
-        if (metadata != other.metadata) return false
+        if (createdAt != other.createdAt) return false
+        if (updatedAt != other.updatedAt) return false
 
         return true
     }
@@ -106,7 +60,8 @@ data class CastEntity(
         result = 31 * result + character.hashCode()
         result = 31 * result + (creditId?.hashCode() ?: 0)
         result = 31 * result + (order ?: 0)
-        result = 31 * result + (metadata?.hashCode() ?: 0)
+        result = 31 * result + (createdAt?.hashCode() ?: 0)
+        result = 31 * result + (updatedAt?.hashCode() ?: 0)
         return result
     }
 

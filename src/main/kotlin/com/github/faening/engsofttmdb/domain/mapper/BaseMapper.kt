@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service
  */
 @Service
 abstract class BaseMapper<A, E, D> {
-
     abstract fun fromApiDataToEntity(data: A): E
 
     abstract fun fromEntityToDomain(entity: E): D
 
     abstract fun fromDomainToEntity(domain: D): E
 
+    abstract fun mergeEntityAndRequest(entity: E, request: D): E
 }

@@ -14,7 +14,7 @@ data class MovieApiData(
     val genreIds: List<Long>,
 
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
 
     @SerializedName("original_language")
     val originalLanguage: String,

@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class ResponsePageApiData<T>(
+    @SerializedName("id")
+    val id: Int?,
+
     @SerializedName("page")
     val page: Int,
 

@@ -3,18 +3,30 @@ package com.github.faening.engsofttmdb.domain.service
 import org.springframework.stereotype.Service
 
 @Service
-abstract class BaseService<REQ, RES> {
+interface BaseService<ENT, REQ, RES> {
 
-    abstract fun getAll(): List<RES>
+    fun getAllEntities(): List<ENT>
 
-    abstract fun getById(id: Long): RES
+    fun getAll(): List<RES>
 
-    abstract fun save(request: REQ): RES
+    fun getEntityById(id: Long): ENT
 
-    abstract fun saveAll(request: List<REQ>): List<RES>
+    fun getById(id: Long): RES
 
-    abstract fun update(id: Long, request: REQ): RES
+    fun saveEntity(entity: ENT): ENT
 
-    abstract fun delete(id: Long)
+    fun saveAllEntities(entities: List<ENT>): List<ENT>
+
+    fun save(request: REQ): RES
+
+    fun saveAll(request: List<REQ>): List<RES>
+
+    fun updateEntity(entity: ENT): RES
+
+    fun update(id: Long, request: REQ): RES
+
+    fun deleteEntity(entity: ENT) : Boolean
+
+    fun delete(id: Long) : Boolean
 
 }

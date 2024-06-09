@@ -1,8 +1,7 @@
 package com.github.faening.engsofttmdb.config
 
-import LanguageInterceptor
 import com.github.faening.engsofttmdb.config.interceptor.AuthorizationInterceptor
-import com.github.faening.engsofttmdb.data.service.TmdbService
+import com.github.faening.engsofttmdb.data.api.TmdbApi
 import okhttp3.OkHttpClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,7 +16,6 @@ class RetrofitConfiguration {
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(AuthorizationInterceptor())
-        .addInterceptor(LanguageInterceptor())
         .build()
 
     private val retrofit = Retrofit.Builder()
@@ -27,8 +25,8 @@ class RetrofitConfiguration {
         .build()
 
     @Bean
-    fun createTmdbService(): TmdbService {
-        return retrofit.create(TmdbService::class.java)
+    fun createTmdbApi(): TmdbApi {
+        return retrofit.create(TmdbApi::class.java)
     }
 
 }

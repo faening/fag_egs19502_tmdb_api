@@ -15,4 +15,11 @@ data class MetadataEntity(
     @Column(name = "updated_at")
     @CreationTimestamp
     val updatedAt: LocalDateTime?
-) : Serializable
+) : Serializable {
+
+    companion object {
+        @Suppress("ConstPropertyName")
+        private const val serialVersionUID = 1L
+    }
+
+}

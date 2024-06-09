@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `crew`(
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `adult` BOOLEAN DEFAULT FALSE,
     `gender` TINYINT(2) NOT NULL DEFAULT 0,
+    `tmdb_id` INT NOT NULL,
     `known_for_department` VARCHAR(100) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `original_name` VARCHAR(100) NOT NULL,

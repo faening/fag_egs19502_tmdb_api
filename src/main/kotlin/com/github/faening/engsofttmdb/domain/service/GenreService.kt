@@ -1,5 +1,6 @@
 package com.github.faening.engsofttmdb.domain.service
 
+import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.data.repository.GenreRepository
 import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
 import com.github.faening.engsofttmdb.domain.model.Genre
@@ -7,46 +8,76 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Suppress("unused")
 @Service
 class GenreService @Autowired constructor(
-    private val genreRepository: GenreRepository,
-    private val genreMapper: GenreMapper
-) : BaseService<Genre, Genre>() {
+    private val repository: GenreRepository,
+    private val mapper: GenreMapper
+) : BaseService<GenreEntity, Genre, Genre> {
+
+    override fun getAllEntities(): List<GenreEntity> {
+        return repository.findAll()
+    }
 
     @Transactional
     override fun getAll(): List<Genre> {
-        val genres = genreRepository.findAll()
-        return genres.map { genreMapper.fromEntityToDomain(it) }
+        val entities = repository.findAll()
+        val genresMapped = entities.map { genre -> mapper.fromEntityToDomain(genre) }
+        return genresMapped
+    }
+
+    override fun getEntityById(id: Long): GenreEntity {
+        return repository.findById(id).orElseThrow { throw RuntimeException("Genre not found") }
     }
 
     @Transactional
     override fun getById(id: Long): Genre {
-        return genreMapper.fromEntityToDomain(
-            genreRepository.findById(id).orElseThrow { throw Exception("Genre not found") }
-        )
+        val entity = getEntityById(id)
+        val genre = mapper.fromEntityToDomain(entity)
+        return genre
+    }
+
+    override fun saveEntity(entity: GenreEntity): GenreEntity {
+        return repository.save(entity)
+    }
+
+    override fun saveAllEntities(entities: List<GenreEntity>): List<GenreEntity> {
+        return repository.saveAll(entities)
     }
 
     override fun save(request: Genre): Genre {
-        return genreMapper.fromEntityToDomain(
-            genreRepository.save(genreMapper.fromDomainToEntity(request))
-        )
+        val savedEntity = saveEntity(mapper.fromDomainToEntity(request))
+        val mappedDomain = mapper.fromEntityToDomain(savedEntity)
+        return mappedDomain
     }
 
     override fun saveAll(request: List<Genre>): List<Genre> {
-        return genreRepository.saveAll(
-            request.map { genreMapper.fromDomainToEntity(it) }
-        ).map { genreMapper.fromEntityToDomain(it) }
+        val entities = request.map { mapper.fromDomainToEntity(it) }
+        val savedEntities = saveAllEntities(entities)
+        val mappedDomains = savedEntities.map { mapper.fromEntityToDomain(it) }
+        return mappedDomains
+    }
+
+    override fun updateEntity(entity: GenreEntity): Genre {
+        val updatedEntity = repository.save(entity)
+        val mappedDomain = mapper.fromEntityToDomain(updatedEntity)
+        return mappedDomain
     }
 
     override fun update(id: Long, request: Genre): Genre {
-        return genreMapper.fromEntityToDomain(
-            genreRepository.save(genreMapper.fromDomainToEntity(request))
-        )
+        val entity = getEntityById(id)
+        val mergedEntity = mapper.mergeEntityAndRequest(entity, request)
+        val updatedEntity = updateEntity(mergedEntity)
+        return updatedEntity
     }
 
-    override fun delete(id: Long) {
-        genreRepository.deleteById(id)
+    override fun deleteEntity(entity: GenreEntity): Boolean {
+        repository.delete(entity)
+        return true
+    }
+
+    override fun delete(id: Long): Boolean {
+        val entity = getEntityById(id)
+        return deleteEntity(entity)
     }
 
 }

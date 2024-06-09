@@ -1,9 +1,13 @@
 package com.github.faening.engsofttmdb.domain.service
 
+import com.github.faening.engsofttmdb.data.api.TmdbApi
 import com.github.faening.engsofttmdb.data.model.api.*
+import com.github.faening.engsofttmdb.data.model.db.CastEntity
+import com.github.faening.engsofttmdb.data.model.db.CrewEntity
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
-import com.github.faening.engsofttmdb.data.service.TmdbService
+import com.github.faening.engsofttmdb.domain.mapper.CastMapper
+import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
 import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
 import com.github.faening.engsofttmdb.domain.mapper.MovieMapper
 import jakarta.annotation.PostConstruct
@@ -13,43 +17,77 @@ import org.springframework.stereotype.Service
 @Suppress("unused")
 @Service
 class TmdbService @Autowired constructor(
-    private val tmdbService: TmdbService,
-    private val genreMapper: GenreMapper,
+    private val tmdbApi: TmdbApi,
     private val genreService: GenreService,
-    private val movieMapper: MovieMapper,
+    private val genreMapper: GenreMapper,
     private val movieService: MovieService,
+    private val movieMapper: MovieMapper,
+    private val castService: CastService,
+    private val castMapper: CastMapper,
+    private val crewService: CrewService,
+    private val crewMapper: CrewMapper
 ) {
 
     @PostConstruct
-    private fun initialize() {
-        initializeGenres()
-        initializeMovies()
+    fun fetchDataFromAPIAndPopulateLocalDatabase() {
+        fetchGenresAndSaveInLocalDatabase()
+        fetchMoviesAndSaveInLocalDatabase()
     }
 
-    /**
-     * Este método realiza a inicialização dos gêneros no banco de dados.
-     * Os gêneros são buscados da API do TMDB, mapeados para entidades e salvos no banco de dados.
-     */
-    private fun initializeGenres() {
-        // Buscar os gêneros da API do TMDB
+    private fun fetchGenresAndSaveInLocalDatabase() {
         val apiGenres: List<GenreApiData> = getAllGenres().genres
-        // Mapear os gêneros da API para entidades
-        val apiGenresMappedToEntity: List<GenreEntity> = apiGenres.map { genre -> genreMapper.fromApiDataToEntity(genre) }
-        // Salvar os gêneros no banco de dados
-        genreService.saveAll(apiGenresMappedToEntity.map { genreMapper.fromEntityToDomain(it) })
+        val genresMappedToEntity: List<GenreEntity> = apiGenres.map { genre -> genreMapper.fromApiDataToEntity(genre) }
+        genreService.saveAll(genresMappedToEntity.map { genreMapper.fromEntityToDomain(it) })
     }
 
-    /**
-     * Este método realiza a inicialização dos filmes no banco de dados.
-     * Os filmes são buscados da API do TMDB, mapeados para entidades e salvos no banco de dados.
-     */
-    private fun initializeMovies() {
-        // Buscar os filmes da API do TMDB
+    private fun fetchMoviesAndSaveInLocalDatabase() {
         val apiMovies: List<MovieApiData> = getAllMovies()
-        // Mapear os filmes da API para entidades
-        val apiMoviesMappedToEntity: List<MovieEntity> = apiMovies.map { movie -> movieMapper.fromApiDataToEntity(movie) }
-        // Salvar os filmes no banco de dados
-        movieService.saveAll(apiMoviesMappedToEntity.map { movieMapper.fromEntityToDomain(it) })
+        val moviesMappedToEntity: List<MovieEntity> = apiMovies.map { movie -> movieMapper.fromApiDataToEntity(movie) }
+        val moviesWithCredits = fetchMovieCreditsAndSaveInLocalDatabase(moviesMappedToEntity)
+        movieService.saveAll(moviesWithCredits.map { movieMapper.fromEntityToDomain(it) })
+    }
+
+    private fun fetchMovieCreditsAndSaveInLocalDatabase(movies: List<MovieEntity>) : List<MovieEntity> {
+        movies.map { movie ->
+            val creditsApiData = getMovieCredits(movie.tmdbId!!)
+            val casts: List<CastEntity> = creditsApiData.cast.map { cast -> castMapper.fromApiDataToEntity(cast) }.take(3)
+            val crews: List<CrewEntity> = creditsApiData.crew.map { crew -> crewMapper.fromApiDataToEntity(crew) }.take(3)
+            movie.casts = saveCastsInLocalDatabase(casts)
+            movie.crews = saveCrewsInLocalDatabase(crews)
+        }
+        return movies
+    }
+
+    private fun saveCastsInLocalDatabase(casts: List<CastEntity>): MutableSet<CastEntity> {
+        val movieCasts: MutableSet<CastEntity> = mutableSetOf()
+
+        casts.map { cast ->
+            val existingCast = castService.findByTmdbId(cast.tmdbId)
+            if (existingCast != null) {
+                movieCasts.add(existingCast)
+            } else {
+                val savedCast = castService.saveEntity(cast)
+                movieCasts.add(savedCast)
+            }
+        }
+
+        return movieCasts
+    }
+
+    private fun saveCrewsInLocalDatabase(crews: List<CrewEntity>): MutableSet<CrewEntity> {
+        val movieCrews: MutableSet<CrewEntity> = mutableSetOf()
+
+        crews.map { crew ->
+            val existingCrew = crewService.findByTmdbId(crew.tmdbId)
+            if (existingCrew != null) {
+                movieCrews.add(existingCrew)
+            } else {
+                val savedCrew = crewService.saveEntity(crew)
+                movieCrews.add(savedCrew)
+            }
+        }
+
+        return movieCrews
     }
 
     /**
@@ -58,7 +96,7 @@ class TmdbService @Autowired constructor(
      * @return Retorna um objeto do tipo AuthenticationData.
      */
     fun authentication(): AuthenticationApiData? {
-        val call = tmdbService.authentication()
+        val call = tmdbApi.authentication()
         return try {
             val response = call.execute()
             if (response.isSuccessful) {
@@ -73,13 +111,34 @@ class TmdbService @Autowired constructor(
     }
 
     /**
-     * Este método realiza a busca de todos os filmes disponíveis na API do TMDB.
+     * Este método realiza a busca de todos os gêneros disponíveis na API do TMDB.
+     *
+     * @return Retorna um objeto do tipo GenrePageApiData.
+     */
+    fun getAllGenres(): GenrePageApiData {
+        var genreData = GenrePageApiData(emptyList())
+        val call = tmdbApi.getAllGenres()
+
+        try {
+            val response = call.execute()
+            if (response.isSuccessful) {
+                genreData = (response.body() ?: GenrePageApiData(emptyList()))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return genreData
+    }
+
+    /**
+     * Este método realiza a busca de 20 filmes lançados recentemente, disponíveis na API do TMDB.
      *
      * @return Retorna uma lista de objetos do tipo MovieData.
      */
     fun getAllMovies(): List<MovieApiData> {
         var movieApiData = emptyList<MovieApiData>()
-        val call = tmdbService.getAllMovies()
+        val call = tmdbApi.getAllMovies()
 
         try {
             val response = call.execute()
@@ -94,13 +153,35 @@ class TmdbService @Autowired constructor(
     }
 
     /**
+     * Este método realiza a busca dos créditos de um filme específico na API do TMDB.
+     *
+     * @param tmdbId ID do filme.
+     * @return Retorna um objeto do tipo CreditsData.
+     */
+    fun getMovieCredits(tmdbId: Long): CreditsApiData {
+        var creditsApiData = CreditsApiData(movieId = 0, cast = emptyList(), crew = emptyList())
+        val call = tmdbApi.getMovieCredits(tmdbId)
+
+        try {
+            val response = call.execute()
+            if (response.isSuccessful) {
+                creditsApiData = response.body() ?: creditsApiData
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return creditsApiData
+    }
+
+    /**
      * Este método realiza a busca de todas as séries de TV disponíveis na API do TMDB.
      *
      * @return Retorna uma lista de objetos do tipo TvData.
      */
     fun getAllTvShows(): List<TvApiData> {
         var tvApiData = emptyList<TvApiData>()
-        val call = tmdbService.getAllTvShows()
+        val call = tmdbApi.getAllTvShows()
 
         try {
             val response = call.execute()
@@ -115,75 +196,25 @@ class TmdbService @Autowired constructor(
     }
 
     /**
-     * Este método realiza a busca de todos os gêneros disponíveis na API do TMDB.
-     *
-     * @return Retorna um objeto do tipo GenrePageData.
-     */
-    fun getAllGenres(): GenrePageData {
-        var genreData = GenrePageData(emptyList())
-        val call = tmdbService.getAllGenres()
-
-        try {
-            val response = call.execute()
-            if (response.isSuccessful) {
-                genreData = (response.body() ?: GenrePageData(emptyList()))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return genreData
-    }
-
-    /**
-     * Este método realiza a busca dos créditos de um filme específico na API do TMDB.
-     *
-     * @param movieId ID do filme.
-     * @return Retorna um objeto do tipo CreditsData.
-     */
-    fun getMovieCredits(movieId: Int): CreditsData {
-        var creditsData = CreditsData(id = 0, cast = emptyList(), crew = emptyList())
-        val call = tmdbService.getMovieCredits(movieId)
-
-        try {
-            val response = call.execute()
-            if (response.isSuccessful) {
-                creditsData = response.body() ?: creditsData
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return creditsData
-    }
-
-    /**
      * Este método realiza a busca das avaliações de um filme específico na API do TMDB.
      *
      * @param movieId ID do filme.
      * @return Retorna um objeto do tipo ReviewData.
      */
-    fun getMovieReviews(movieId: Int): ReviewData {
-        var reviewData = ReviewData(
-            author = "", authorDetails = AuthorApiData(
-                name = "",
-                username = "",
-                avatarPath = "",
-                rating = 0
-            ), content = "", id = "", url = "", createdAt = "", updatedAt = ""
-        )
-        val call = tmdbService.getMovieReviews(movieId)
+    fun getMovieReviews(movieId: Long): List<ReviewApiData> {
+        var reviewApiData = emptyList<ReviewApiData>()
+        val call = tmdbApi.getMovieReviews(movieId)
 
         try {
             val response = call.execute()
             if (response.isSuccessful) {
-                reviewData = response.body()?.results?.get(0) ?: reviewData
+                reviewApiData = response.body()?.results ?: emptyList()
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        return reviewData
+        return reviewApiData
     }
 
 }

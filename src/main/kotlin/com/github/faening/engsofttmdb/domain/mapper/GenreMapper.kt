@@ -5,7 +5,6 @@ import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.domain.model.Genre
 import org.springframework.stereotype.Service
 
-@Suppress("unused")
 @Service
 class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre>() {
 
@@ -14,6 +13,7 @@ class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre>() {
             id = null,
             tmdbId = data.id,
             name = data.name,
+            movies = mutableSetOf(),
             metadata = null,
         )
     }
@@ -33,7 +33,19 @@ class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre>() {
             id = domain.id ?: 0,
             tmdbId = domain.tmdbId ?: 0,
             name = domain.name,
+            movies = mutableSetOf(),
             metadata = null,
+        )
+    }
+
+    @Suppress("USELESS_ELVIS")
+    override fun mergeEntityAndRequest(entity: GenreEntity, request: Genre): GenreEntity {
+        return GenreEntity(
+            id = entity.id,
+            tmdbId = request.tmdbId ?: entity.tmdbId,
+            name = request.name ?: entity.name,
+            movies = entity.movies,
+            metadata = entity.metadata,
         )
     }
 

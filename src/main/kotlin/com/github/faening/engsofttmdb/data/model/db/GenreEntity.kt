@@ -19,7 +19,7 @@ data class GenreEntity(
     val name: String,
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
-    val movies: Set<MovieEntity> = HashSet(),
+    val movies: Set<MovieEntity>,
 
     @Embedded
     @AttributeOverrides(
@@ -27,4 +27,11 @@ data class GenreEntity(
         AttributeOverride(name = "updatedAt", column = Column(name = "updated_at"))
     )
     val metadata: MetadataEntity?
-) : Serializable
+) : Serializable {
+
+    companion object {
+        @Suppress("ConstPropertyName")
+        private const val serialVersionUID = 1L
+    }
+
+}

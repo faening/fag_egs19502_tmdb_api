@@ -32,22 +32,23 @@ class TmdbController @Autowired constructor(
     }
 
     @GetMapping("/genres")
-    fun getAllGenres(): ResponseEntity<GenrePageData> {
+    fun getAllGenres(): ResponseEntity<GenrePageApiData> {
         return ResponseEntity.ok(tmdbService.getAllGenres())
     }
 
     @GetMapping("/credits")
     fun getAllCredits(
-        @RequestParam("movieId") movieId: Int
-    ): ResponseEntity<CreditsData> {
+        @RequestParam("movieId") movieId: Long
+    ): ResponseEntity<CreditsApiData> {
         return ResponseEntity.ok(tmdbService.getMovieCredits(movieId))
     }
 
     @GetMapping("/reviews")
     fun getAllReviews(
-        @RequestParam("movieId") movieId: Int
-    ): ResponseEntity<ReviewData> {
-        return ResponseEntity.ok(tmdbService.getMovieReviews(movieId))
+        @RequestParam("movieId") movieId: Long
+    ): ResponseEntity<List<ReviewApiData>> {
+        val reviews = tmdbService.getMovieReviews(movieId)
+        return ResponseEntity.ok(reviews)
     }
 
 }

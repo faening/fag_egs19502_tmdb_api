@@ -11,7 +11,7 @@ data class CastApiData(
     val gender : Int,
 
     @SerializedName("id")
-    val id : Int,
+    val id : Long,
 
     @SerializedName("known_for_department")
     val knownForDepartment : String,
