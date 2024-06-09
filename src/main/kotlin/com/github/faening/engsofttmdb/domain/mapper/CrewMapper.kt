@@ -2,12 +2,11 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.CrewApiData
 import com.github.faening.engsofttmdb.data.model.db.CrewEntity
-import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.domain.model.Crew
 import org.springframework.stereotype.Service
 
 @Service
-class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew>() {
+class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew> {
 
     override fun fromApiDataToEntity(data: CrewApiData): CrewEntity {
         return CrewEntity(
@@ -84,11 +83,6 @@ class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew>() {
             movies = entity.movies,
             metadata = entity.metadata
         )
-    }
-
-    fun addMovieToCrewEntity(crew: CrewEntity, movie: MovieEntity): CrewEntity {
-        crew.movies?.add(movie)
-        return crew
     }
 
 }

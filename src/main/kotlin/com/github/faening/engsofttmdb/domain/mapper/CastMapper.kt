@@ -7,7 +7,7 @@ import com.github.faening.engsofttmdb.domain.model.Cast
 import org.springframework.stereotype.Service
 
 @Service
-class CastMapper : BaseMapper<CastApiData, CastEntity, Cast>() {
+class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
 
     override fun fromApiDataToEntity(data: CastApiData): CastEntity {
         return CastEntity(
@@ -84,11 +84,6 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast>() {
             movies = entity.movies,
             metadata = entity.metadata
         )
-    }
-
-    fun addMovieToCastEntity(cast: CastEntity, movie: MovieEntity): CastEntity {
-        cast.movies?.add(movie)
-        return cast
     }
 
 }

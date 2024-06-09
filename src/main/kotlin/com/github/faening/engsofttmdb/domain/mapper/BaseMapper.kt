@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service
  * @param D (Domain Object) Tipo de dado utilizado na camada de domínio.
  */
 @Service
-abstract class BaseMapper<A, E, D> {
-    abstract fun fromApiDataToEntity(data: A): E
+interface BaseMapper<A, E, D> {
+    fun fromApiDataToEntity(data: A): E
 
-    abstract fun fromEntityToDomain(entity: E): D
+    fun fromEntityToDomain(entity: E): D
 
-    abstract fun fromDomainToEntity(domain: D): E
+    fun fromDomainToEntity(domain: D): E
 
-    abstract fun mergeEntityAndRequest(entity: E, request: D): E
+    fun mergeEntityAndRequest(entity: E, request: D): E
 }

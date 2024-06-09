@@ -6,7 +6,7 @@ import com.github.faening.engsofttmdb.domain.model.Genre
 import org.springframework.stereotype.Service
 
 @Service
-class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre>() {
+class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre> {
 
     override fun fromApiDataToEntity(data: GenreApiData): GenreEntity {
         return GenreEntity(

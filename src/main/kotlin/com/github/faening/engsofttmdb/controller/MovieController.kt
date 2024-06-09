@@ -1,6 +1,5 @@
 package com.github.faening.engsofttmdb.controller
 
-import com.github.faening.engsofttmdb.data.model.api.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.domain.model.Movie
 import com.github.faening.engsofttmdb.domain.service.BaseService

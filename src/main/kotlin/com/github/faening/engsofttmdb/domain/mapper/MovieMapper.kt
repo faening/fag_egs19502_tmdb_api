@@ -14,7 +14,7 @@ class MovieMapper(
     private val genreMapper: GenreMapper,
     private val castMapper: CastMapper,
     private val crewMapper: CrewMapper
-) : BaseMapper<MovieApiData, MovieEntity, Movie>() {
+) : BaseMapper<MovieApiData, MovieEntity, Movie> {
 
     override fun fromApiDataToEntity(data: MovieApiData): MovieEntity {
         val movies = MovieEntity(

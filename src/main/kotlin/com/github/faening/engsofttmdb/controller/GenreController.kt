@@ -1,6 +1,5 @@
 package com.github.faening.engsofttmdb.controller
 
-import com.github.faening.engsofttmdb.data.model.api.GenreApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.domain.model.Genre
 import com.github.faening.engsofttmdb.domain.service.BaseService
