@@ -39,8 +39,6 @@ data class Crew(
         if (creditId != other.creditId) return false
         if (department != other.department) return false
         if (job != other.job) return false
-        if (createdAt != other.createdAt) return false
-        if (updatedAt != other.updatedAt) return false
 
         return true
     }
@@ -58,8 +56,6 @@ data class Crew(
         result = 31 * result + (creditId?.hashCode() ?: 0)
         result = 31 * result + (department?.hashCode() ?: 0)
         result = 31 * result + (job?.hashCode() ?: 0)
-        result = 31 * result + (createdAt?.hashCode() ?: 0)
-        result = 31 * result + (updatedAt?.hashCode() ?: 0)
         return result
     }
 

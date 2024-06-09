@@ -2,9 +2,10 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.CastApiData
 import com.github.faening.engsofttmdb.data.model.db.CastEntity
-import com.github.faening.engsofttmdb.data.model.db.MovieEntity
+import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.domain.model.Cast
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
@@ -24,7 +25,10 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             creditId = data.creditId,
             order = data.order,
             movies = mutableSetOf(),
-            metadata = null
+            metadata = MetadataEntity(
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
     }
 
@@ -62,7 +66,10 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             creditId = domain.creditId,
             order = domain.order,
             movies = mutableSetOf(),
-            metadata = null
+            metadata = MetadataEntity(
+                createdAt = domain.createdAt ?: LocalDateTime.now(),
+                updatedAt = domain.updatedAt ?: LocalDateTime.now()
+            )
         )
     }
 

@@ -2,8 +2,10 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.CrewApiData
 import com.github.faening.engsofttmdb.data.model.db.CrewEntity
+import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.domain.model.Crew
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew> {
@@ -23,7 +25,10 @@ class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew> {
             department = data.department,
             job = data.job,
             movies = mutableSetOf(),
-            metadata = null
+            metadata = MetadataEntity(
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
     }
 
@@ -61,7 +66,10 @@ class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew> {
             department = domain.department,
             job = domain.job,
             movies = mutableSetOf(),
-            metadata = null
+            metadata = MetadataEntity(
+                createdAt = domain.createdAt ?: LocalDateTime.now(),
+                updatedAt = domain.updatedAt ?: LocalDateTime.now()
+            )
         )
     }
 

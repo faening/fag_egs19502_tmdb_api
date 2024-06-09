@@ -40,8 +40,6 @@ data class Cast(
         if (character != other.character) return false
         if (creditId != other.creditId) return false
         if (order != other.order) return false
-        if (createdAt != other.createdAt) return false
-        if (updatedAt != other.updatedAt) return false
 
         return true
     }
@@ -60,8 +58,6 @@ data class Cast(
         result = 31 * result + character.hashCode()
         result = 31 * result + (creditId?.hashCode() ?: 0)
         result = 31 * result + (order ?: 0)
-        result = 31 * result + (createdAt?.hashCode() ?: 0)
-        result = 31 * result + (updatedAt?.hashCode() ?: 0)
         return result
     }
 
