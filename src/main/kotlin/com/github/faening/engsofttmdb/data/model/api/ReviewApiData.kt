@@ -8,20 +8,20 @@ data class ReviewApiData(
     val author: String,
 
     @SerializedName("author_details")
-    val authorDetails: AuthorDetailsApiData,
+    val authorDetails: AuthorDetailsApiData?,
 
     @SerializedName("content")
     val content: String,
 
+    @SerializedName("id")
+    val tmdbId: String,
+
+    @SerializedName("url")
+    val url: String,
+
     @SerializedName("created_at")
     val createdAt: String,
 
-    @SerializedName("id")
-    val tmdbAuthorId: String,
-
     @SerializedName("updated_at")
     val updatedAt: String,
-
-    @SerializedName("url")
-    val url: String
 ) : Serializable

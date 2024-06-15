@@ -1,6 +1,5 @@
 package com.github.faening.engsofttmdb.domain.model
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import java.io.Serializable
 import java.time.LocalDateTime
 

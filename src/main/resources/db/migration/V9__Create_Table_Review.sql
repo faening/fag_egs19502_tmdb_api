@@ -1,11 +1,12 @@
 CREATE TABLE IF NOT EXISTS `review` (
     `id` BIGINT AUTO_INCREMENT,
+    `author` VARCHAR(100) NOT NULL,
+    `author_details_id` BIGINT,
     `content` VARCHAR(1000) NOT NULL,
-    `author_id` BIGINT NOT NULL,
-    `created_at` VARCHAR(100) NOT NULL,
-    `tmdb_author_id` VARCHAR(100) NOT NULL,
-    `updated_at` VARCHAR(100) NOT NULL,
-    `url` VARCHAR(100) NOT NULL,
+    `tmdb_id` VARCHAR(100),
+    `url` VARCHAR(100),
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`author_id`) REFERENCES `author_details` (`id`)
+    FOREIGN KEY (`author_details_id`) REFERENCES `author_details` (`id`)
 );

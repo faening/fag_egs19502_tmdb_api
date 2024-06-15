@@ -11,22 +11,26 @@ data class ReviewEntity(
     @Column(name = "id")
     val id: Long?,
 
+    @Column(name = "author", nullable = false, length = 100)
+    val author: String,
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_details_id")
+    var authorDetailsId: AuthorDetailsEntity?,
+
     @Column(name = "content", nullable = false, length = 1000)
     val content: String,
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
-    val author: AuthorDetailsEntity,
+    @Column(name = "tmdb_id", length = 100)
+    val tmdbId: String?,
 
-    @Column(name = "created_at", nullable = false, length = 100)
-    val createdAt: String,
+    @Column(name = "url", length = 100)
+    val url: String?,
 
-    @Column(name = "tmdb_author_id", nullable = false, length = 100)
-    val tmdbAuthorId: String,
-
-    @Column(name = "updated_at", nullable = false, length = 100)
-    val updatedAt: String,
-
-    @Column(name = "url", nullable = false, length = 100)
-    val url: String
+    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(name = "createdAt", column = Column(name = "created_at")),
+        AttributeOverride(name = "updatedAt", column = Column(name = "updated_at"))
+    )
+    val metadata: MetadataEntity?
 ) : Serializable

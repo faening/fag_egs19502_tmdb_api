@@ -5,14 +5,14 @@ import java.io.Serializable
 
 data class AuthorDetailsApiData(
     @SerializedName("name")
-    val name: String,
+    val name: String?,
 
     @SerializedName("username")
-    val username: String,
+    val username: String?,
 
     @SerializedName("avatar_path")
     val avatarPath: String?,
 
     @SerializedName("rating")
-    val rating: Int
+    val rating: Int?
 ) : Serializable
