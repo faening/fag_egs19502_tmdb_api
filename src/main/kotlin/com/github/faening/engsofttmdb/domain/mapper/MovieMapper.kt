@@ -15,9 +15,6 @@ import java.time.LocalDateTime
 class MovieMapper(
     private val genreRepository: GenreRepository,
     private val genreMapper: GenreMapper,
-    private val castMapper: CastMapper,
-    private val crewMapper: CrewMapper,
-    private val reviewMapper: ReviewMapper
 ) : BaseMapper<MovieApiData, MovieEntity, Movie> {
 
     override fun fromApiDataToEntity(data: MovieApiData): MovieEntity {
@@ -53,7 +50,7 @@ class MovieMapper(
             id = entity.id,
             adult = entity.adult,
             backdropPath = entity.backdropPath,
-            genres = entity.genres.map { genreMapper.fromEntityToDomain(it) },
+            genreIds = entity.genres.map { genreMapper.fromEntityToDomain(it).id ?: 0 },
             tmdbId = entity.tmdbId ?: 0,
             originalLanguage = entity.originalLanguage,
             originalTitle = entity.originalTitle,
@@ -65,20 +62,21 @@ class MovieMapper(
             video = entity.video,
             voteAverage = entity.voteAverage,
             voteCount = entity.voteCount,
-            casts = entity.casts?.map { castMapper.fromEntityToDomain(it) } ?: emptyList(),
-            crews = entity.crews?.map { crewMapper.fromEntityToDomain(it) } ?: emptyList(),
-            reviews = entity.reviews?.map { reviewMapper.fromEntityToDomain(it) } ?: emptyList(),
             createdAt = entity.metadata?.createdAt,
             updatedAt = entity.metadata?.updatedAt,
         )
     }
 
     override fun fromDomainToEntity(domain: Movie): MovieEntity {
+        val genres = domain.genreIds.mapNotNull {
+            genreRepository.findById(it).orElse(null)
+        }.toMutableSet()
+
         return MovieEntity(
             id = domain.id ?: 0,
             adult = domain.adult ?: false,
             backdropPath = domain.backdropPath,
-            genres = domain.genres.map { genreMapper.fromDomainToEntity(it) }.toMutableSet(),
+            genres = genres,
             tmdbId = domain.tmdbId,
             originalLanguage = domain.originalLanguage ?: "",
             originalTitle = domain.originalTitle ?: "",
@@ -90,20 +88,21 @@ class MovieMapper(
             video = domain.video ?: false,
             voteAverage = domain.voteAverage ?: 0.0,
             voteCount = domain.voteCount ?: 0,
-            casts = domain.casts?.map { castMapper.fromDomainToEntity(it) }?.toMutableSet() ?: mutableSetOf(),
-            crews = domain.crews?.map { crewMapper.fromDomainToEntity(it) }?.toMutableSet() ?: mutableSetOf(),
-            reviews = domain.reviews?.map { reviewMapper.fromDomainToEntity(it) }?.toMutableList() ?: mutableListOf(),
             metadata = null,
         )
     }
 
     @Suppress("USELESS_ELVIS")
     override fun mergeEntityAndRequest(entity: MovieEntity, request: Movie): MovieEntity {
+        val genres = request.genreIds.mapNotNull {
+            genreRepository.findById(it).orElse(null)
+        }.toMutableSet()
+
         return MovieEntity(
             id = entity.id,
             adult = request.adult ?: entity.adult,
             backdropPath = request.backdropPath ?: entity.backdropPath,
-            genres = request.genres.map { genreMapper.fromDomainToEntity(it) }.toMutableSet() ?: entity.genres,
+            genres = genres ?: entity.genres,
             tmdbId = request.tmdbId ?: entity.tmdbId,
             originalLanguage = request.originalLanguage ?: entity.originalLanguage,
             originalTitle = request.originalTitle ?: entity.originalTitle,
@@ -115,9 +114,6 @@ class MovieMapper(
             video = request.video ?: entity.video,
             voteAverage = request.voteAverage ?: entity.voteAverage,
             voteCount = request.voteCount ?: entity.voteCount,
-            casts = request.casts?.map { castMapper.fromDomainToEntity(it) }?.toMutableSet() ?: entity.casts,
-            crews = request.crews?.map { crewMapper.fromDomainToEntity(it) }?.toMutableSet() ?: entity.crews,
-            reviews = request.reviews?.map { reviewMapper.fromDomainToEntity(it) }?.toMutableList() ?: entity.reviews,
             metadata = entity.metadata,
         )
     }

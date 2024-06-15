@@ -22,7 +22,7 @@ data class MovieEntity(
     @Column(name = "backdrop_path", nullable = false, length = 255)
     val backdropPath: String,
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinTable(
         name = "movie_genre",
         joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
@@ -60,7 +60,7 @@ data class MovieEntity(
     @Column(name = "vote_count", columnDefinition = "DEFAULT NULL")
     val voteCount: Int,
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinTable(
         name = "movie_cast",
         joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
@@ -68,7 +68,7 @@ data class MovieEntity(
     )
     var casts: MutableSet<CastEntity>? = mutableSetOf(),
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinTable(
         name = "movie_crew",
         joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
@@ -76,7 +76,7 @@ data class MovieEntity(
     )
     var crews: MutableSet<CrewEntity>? = mutableSetOf(),
 
-    @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var reviews: MutableList<ReviewEntity>? = mutableListOf(),
 
     @Embedded

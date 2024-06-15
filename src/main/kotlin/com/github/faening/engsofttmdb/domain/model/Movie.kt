@@ -8,7 +8,7 @@ data class Movie(
     val id: Long? = null,
     val adult: Boolean? = null,
     val backdropPath: String,
-    val genres: List<Genre> = emptyList(),
+    val genreIds: List<Long> = emptyList(),
     val tmdbId: Long? = null,
     val originalLanguage: String? = null,
     val originalTitle: String? = null,
@@ -20,9 +20,6 @@ data class Movie(
     val video: Boolean? = null,
     val voteAverage: Double? = null,
     val voteCount: Int? = null,
-    val casts: List<Cast>? = emptyList(),
-    val crews: List<Crew>? = emptyList(),
-    val reviews: List<Review>? = emptyList(),
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 ) : Serializable {
