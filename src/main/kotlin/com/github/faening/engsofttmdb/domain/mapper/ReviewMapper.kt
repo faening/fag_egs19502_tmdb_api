@@ -8,6 +8,7 @@ import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Review
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 class ReviewMapper(
@@ -16,8 +17,7 @@ class ReviewMapper(
 ) : BaseMapper<ReviewApiData, ReviewEntity, Review> {
 
     override fun fromApiDataToEntity(data: ReviewApiData): ReviewEntity {
-        val authorDetailsEntity = authorDetailsRepository.findByNameIgnoreCase(data.author)
-            ?: authorDetailsRepository.findByUsernameIgnoreCase(data.author)
+        val authorDetailsEntity = authorDetailsRepository.findByNameOrUsernameIgnoreCase(data.author, data.author)
 
         return ReviewEntity(
             id = null,
@@ -27,8 +27,8 @@ class ReviewMapper(
             tmdbId = data.tmdbId,
             url = data.url,
             metadata = MetadataEntity(
-                createdAt = LocalDateTime.parse(data.createdAt) ?: LocalDateTime.now(),
-                updatedAt = LocalDateTime.parse(data.updatedAt) ?: LocalDateTime.now()
+                createdAt = OffsetDateTime.parse(data.createdAt).toLocalDateTime() ?: LocalDateTime.now(),
+                updatedAt = OffsetDateTime.parse(data.updatedAt).toLocalDateTime() ?: LocalDateTime.now()
             )
         )
     }

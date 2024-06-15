@@ -18,7 +18,7 @@ data class ReviewEntity(
     @JoinColumn(name = "author_details_id")
     var authorDetailsId: AuthorDetailsEntity?,
 
-    @Column(name = "content", nullable = false, length = 1000)
+    @Column(name = "content", nullable = false)
     val content: String,
 
     @Column(name = "tmdb_id", length = 100)

@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `review` (
     `id` BIGINT AUTO_INCREMENT,
     `author` VARCHAR(100) NOT NULL,
     `author_details_id` BIGINT,
-    `content` VARCHAR(1000) NOT NULL,
+    `content` TEXT NOT NULL,
     `tmdb_id` VARCHAR(100),
     `url` VARCHAR(100),
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

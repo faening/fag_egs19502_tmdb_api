@@ -9,10 +9,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AuthorDetailsRepository : JpaRepository<AuthorDetailsEntity, Long> {
 
-    @Query("SELECT a FROM AuthorDetailsEntity a WHERE LOWER(a.name) = LOWER(:name)")
-    fun findByNameIgnoreCase(@Param("name") name: String): AuthorDetailsEntity?
-
-    @Query("SELECT a FROM AuthorDetailsEntity a WHERE LOWER(a.username) = LOWER(:username)")
-    fun findByUsernameIgnoreCase(@Param("username") username: String): AuthorDetailsEntity?
+    @Query("SELECT a FROM AuthorDetailsEntity a WHERE LOWER(a.name) = LOWER(:name) OR LOWER(a.username) = LOWER(:username)")
+    fun findByNameOrUsernameIgnoreCase(@Param("name") name: String, @Param("username") username: String): AuthorDetailsEntity?
 
 }

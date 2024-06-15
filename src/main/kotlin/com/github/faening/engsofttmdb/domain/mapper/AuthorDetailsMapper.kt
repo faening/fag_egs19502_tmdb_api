@@ -3,6 +3,7 @@ package com.github.faening.engsofttmdb.domain.mapper
 import com.github.faening.engsofttmdb.data.model.api.AuthorDetailsApiData
 import com.github.faening.engsofttmdb.data.model.db.AuthorDetailsEntity
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
+import com.github.faening.engsofttmdb.data.repository.AuthorDetailsRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.AuthorDetails
 import org.springframework.stereotype.Service
@@ -12,10 +13,13 @@ import java.time.LocalDateTime
 class AuthorDetailsMapper : BaseMapper<AuthorDetailsApiData, AuthorDetailsEntity, AuthorDetails> {
 
     override fun fromApiDataToEntity(data: AuthorDetailsApiData): AuthorDetailsEntity {
+        val name = if (data.name.isNullOrBlank()) data.username else data.name
+        val username = if (data.username.isNullOrBlank()) data.name else data.username
+
         return AuthorDetailsEntity(
             id = null,
-            name = data.name ?: " ",
-            username = data.username ?: " ",
+            name = name ?: "Unknown",
+            username = username ?: "Unknown",
             avatarPath = data.avatarPath ?: " ",
             rating = data.rating ?: 0,
             metadata = MetadataEntity(

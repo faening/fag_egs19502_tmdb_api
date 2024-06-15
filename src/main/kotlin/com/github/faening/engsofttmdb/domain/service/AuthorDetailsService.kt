@@ -88,4 +88,8 @@ class AuthorDetailsService @Autowired constructor(
         }
     }
 
+    fun findByNameOrUsernameIgnoreCase(name: String, username: String): AuthorDetailsEntity? {
+        return repository.findByNameOrUsernameIgnoreCase(name, username)
+    }
+
 }

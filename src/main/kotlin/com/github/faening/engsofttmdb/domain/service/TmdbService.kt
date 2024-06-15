@@ -2,14 +2,8 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.api.TmdbApi
 import com.github.faening.engsofttmdb.data.model.api.*
-import com.github.faening.engsofttmdb.data.model.db.CastEntity
-import com.github.faening.engsofttmdb.data.model.db.CrewEntity
-import com.github.faening.engsofttmdb.data.model.db.GenreEntity
-import com.github.faening.engsofttmdb.data.model.db.MovieEntity
-import com.github.faening.engsofttmdb.domain.mapper.CastMapper
-import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
-import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
-import com.github.faening.engsofttmdb.domain.mapper.MovieMapper
+import com.github.faening.engsofttmdb.data.model.db.*
+import com.github.faening.engsofttmdb.domain.mapper.*
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -25,7 +19,11 @@ class TmdbService @Autowired constructor(
     private val castService: CastService,
     private val castMapper: CastMapper,
     private val crewService: CrewService,
-    private val crewMapper: CrewMapper
+    private val crewMapper: CrewMapper,
+    private val authorDetailsService: AuthorDetailsService,
+    private val authorDetailsMapper: AuthorDetailsMapper,
+    private val reviewService: ReviewService,
+    private val reviewMapper: ReviewMapper
 ) {
 
     @PostConstruct
@@ -44,6 +42,7 @@ class TmdbService @Autowired constructor(
         val apiMovies: List<MovieApiData> = getAllMovies()
         val moviesMappedToEntity: List<MovieEntity> = apiMovies.map { movie -> movieMapper.fromApiDataToEntity(movie) }
         val moviesWithCredits = fetchMovieCreditsAndSaveInLocalDatabase(moviesMappedToEntity)
+        fetchMovieReviewsAndSaveInLocalDatabase(moviesWithCredits)
         movieService.saveAll(moviesWithCredits.map { movieMapper.fromEntityToDomain(it) })
     }
 
@@ -88,6 +87,29 @@ class TmdbService @Autowired constructor(
         }
 
         return movieCrews
+    }
+
+    private fun fetchMovieReviewsAndSaveInLocalDatabase(movies: List<MovieEntity>) {
+        movies.map {
+            getMovieReviews(it.tmdbId!!).map { review ->
+                saveAuthorDetailsInLocalDatabase(
+                    authorDetailsMapper.fromApiDataToEntity(review.authorDetails!!)
+                )
+
+                saveReviewsInLocalDatabase(
+                    reviewMapper.fromApiDataToEntity(review)
+                )
+            }
+        }
+    }
+
+    private fun saveAuthorDetailsInLocalDatabase(authorDetails: AuthorDetailsEntity) : AuthorDetailsEntity {
+        val existingAuthorDetails = authorDetailsService.findByNameOrUsernameIgnoreCase(authorDetails.name, authorDetails.username)
+        return existingAuthorDetails ?: authorDetailsService.saveEntity(authorDetails)
+    }
+
+    private fun saveReviewsInLocalDatabase(reviw: ReviewEntity) {
+        reviewService.saveEntity(reviw)
     }
 
     /**
