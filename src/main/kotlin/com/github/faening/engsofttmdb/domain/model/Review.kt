@@ -10,6 +10,7 @@ data class Review(
     val content: String,
     val tmdbId: String?,
     val url: String?,
+    val movieId: Long?,
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 ) : Serializable {

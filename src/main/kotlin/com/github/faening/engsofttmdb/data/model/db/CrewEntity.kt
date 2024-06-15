@@ -60,11 +60,6 @@ data class CrewEntity(
     val metadata: MetadataEntity?
 ) : Serializable {
 
-    companion object {
-        @Suppress("ConstPropertyName")
-        private const val serialVersionUID = 1L
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -83,6 +78,7 @@ data class CrewEntity(
         if (creditId != other.creditId) return false
         if (department != other.department) return false
         if (job != other.job) return false
+        if (metadata != other.metadata) return false
 
         return true
     }
@@ -100,6 +96,7 @@ data class CrewEntity(
         result = 31 * result + (creditId?.hashCode() ?: 0)
         result = 31 * result + (department?.hashCode() ?: 0)
         result = 31 * result + (job?.hashCode() ?: 0)
+        result = 31 * result + (metadata?.hashCode() ?: 0)
         return result
     }
 

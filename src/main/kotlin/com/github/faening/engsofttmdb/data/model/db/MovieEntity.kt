@@ -66,7 +66,7 @@ data class MovieEntity(
         joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "cast_id", referencedColumnName = "id")]
     )
-    var casts: MutableSet<CastEntity>,
+    var casts: MutableSet<CastEntity>? = mutableSetOf(),
 
     @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(
@@ -74,7 +74,10 @@ data class MovieEntity(
         joinColumns = [JoinColumn(name = "movie_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "crew_id", referencedColumnName = "id")]
     )
-    var crews: MutableSet<CrewEntity>,
+    var crews: MutableSet<CrewEntity>? = mutableSetOf(),
+
+    @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL])
+    var reviews: MutableList<ReviewEntity>? = mutableListOf(),
 
     @Embedded
     @AttributeOverrides(
@@ -83,11 +86,6 @@ data class MovieEntity(
     )
     val metadata: MetadataEntity?
 ) : Serializable {
-
-    companion object {
-        @Suppress("ConstPropertyName")
-        private const val serialVersionUID = 1L
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -132,5 +130,4 @@ data class MovieEntity(
         result = 31 * result + (metadata?.hashCode() ?: 0)
         return result
     }
-
 }

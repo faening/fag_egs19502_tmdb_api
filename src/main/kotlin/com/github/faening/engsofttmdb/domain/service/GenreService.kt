@@ -5,6 +5,8 @@ import com.github.faening.engsofttmdb.data.repository.GenreRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
 import com.github.faening.engsofttmdb.domain.model.Genre
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,6 +16,9 @@ class GenreService @Autowired constructor(
     private val repository: GenreRepository,
     private val mapper: GenreMapper
 ) : BaseService<GenreEntity, Genre, Genre> {
+
+    @PersistenceContext
+    private lateinit var entityManager: EntityManager
 
     override fun getAllEntities(): List<GenreEntity> {
         return repository.findAll()
@@ -38,11 +43,14 @@ class GenreService @Autowired constructor(
     }
 
     override fun saveEntity(entity: GenreEntity): GenreEntity {
+        if (entity.id != null && entityManager.contains(entity).not()) {
+            return repository.save(entityManager.merge(entity))
+        }
         return repository.save(entity)
     }
 
     override fun saveAllEntities(entities: List<GenreEntity>): List<GenreEntity> {
-        return repository.saveAll(entities)
+        return entities.map { saveEntity(it) }
     }
 
     override fun save(request: Genre): Genre {

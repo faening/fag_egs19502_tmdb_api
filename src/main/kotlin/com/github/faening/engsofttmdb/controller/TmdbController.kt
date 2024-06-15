@@ -16,6 +16,11 @@ class TmdbController @Autowired constructor(
     private val tmdbService: TmdbService
 ) {
 
+    @GetMapping("/init")
+    fun init() {
+        tmdbService.initialize()
+    }
+
     @GetMapping("/authenticate")
     fun authentication() : ResponseEntity<AuthenticationApiData> {
         return ResponseEntity.ok(tmdbService.authentication())

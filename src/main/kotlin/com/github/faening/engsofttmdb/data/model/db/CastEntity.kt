@@ -63,11 +63,6 @@ data class CastEntity(
     val metadata: MetadataEntity?
 ) : Serializable {
 
-    companion object {
-        @Suppress("ConstPropertyName")
-        private const val serialVersionUID = 1L
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -87,6 +82,7 @@ data class CastEntity(
         if (character != other.character) return false
         if (creditId != other.creditId) return false
         if (order != other.order) return false
+        if (metadata != other.metadata) return false
 
         return true
     }
@@ -105,6 +101,7 @@ data class CastEntity(
         result = 31 * result + character.hashCode()
         result = 31 * result + (creditId?.hashCode() ?: 0)
         result = 31 * result + (order ?: 0)
+        result = 31 * result + (metadata?.hashCode() ?: 0)
         return result
     }
 

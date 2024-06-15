@@ -4,7 +4,6 @@ import com.github.faening.engsofttmdb.data.api.TmdbApi
 import com.github.faening.engsofttmdb.data.model.api.*
 import com.github.faening.engsofttmdb.data.model.db.*
 import com.github.faening.engsofttmdb.domain.mapper.*
-import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -26,8 +25,7 @@ class TmdbService @Autowired constructor(
     private val reviewMapper: ReviewMapper
 ) {
 
-    @PostConstruct
-    fun fetchDataFromAPIAndPopulateLocalDatabase() {
+    fun initialize() {
         fetchGenresAndSaveInLocalDatabase()
         fetchMoviesAndSaveInLocalDatabase()
     }
@@ -35,81 +33,50 @@ class TmdbService @Autowired constructor(
     private fun fetchGenresAndSaveInLocalDatabase() {
         val apiGenres: List<GenreApiData> = getAllGenres().genres
         val genresMappedToEntity: List<GenreEntity> = apiGenres.map { genre -> genreMapper.fromApiDataToEntity(genre) }
-        genreService.saveAll(genresMappedToEntity.map { genreMapper.fromEntityToDomain(it) })
+        genreService.saveAllEntities(genresMappedToEntity)
     }
 
     private fun fetchMoviesAndSaveInLocalDatabase() {
         val apiMovies: List<MovieApiData> = getAllMovies()
         val moviesMappedToEntity: List<MovieEntity> = apiMovies.map { movie -> movieMapper.fromApiDataToEntity(movie) }
-        val moviesWithCredits = fetchMovieCreditsAndSaveInLocalDatabase(moviesMappedToEntity)
-        fetchMovieReviewsAndSaveInLocalDatabase(moviesWithCredits)
-        movieService.saveAll(moviesWithCredits.map { movieMapper.fromEntityToDomain(it) })
-    }
+        val savedMovies = movieService.saveAllEntities(moviesMappedToEntity)
 
-    private fun fetchMovieCreditsAndSaveInLocalDatabase(movies: List<MovieEntity>) : List<MovieEntity> {
-        movies.map { movie ->
-            val creditsApiData = getMovieCredits(movie.tmdbId!!)
-            val casts: List<CastEntity> = creditsApiData.cast.map { cast -> castMapper.fromApiDataToEntity(cast) }.take(3)
-            val crews: List<CrewEntity> = creditsApiData.crew.map { crew -> crewMapper.fromApiDataToEntity(crew) }.take(3)
-            movie.casts = saveCastsInLocalDatabase(casts)
-            movie.crews = saveCrewsInLocalDatabase(crews)
-        }
-        return movies
-    }
-
-    private fun saveCastsInLocalDatabase(casts: List<CastEntity>): MutableSet<CastEntity> {
-        val movieCasts: MutableSet<CastEntity> = mutableSetOf()
-
-        casts.map { cast ->
-            val existingCast = castService.findByTmdbId(cast.tmdbId)
-            if (existingCast != null) {
-                movieCasts.add(existingCast)
-            } else {
-                val savedCast = castService.saveEntity(cast)
-                movieCasts.add(savedCast)
-            }
-        }
-
-        return movieCasts
-    }
-
-    private fun saveCrewsInLocalDatabase(crews: List<CrewEntity>): MutableSet<CrewEntity> {
-        val movieCrews: MutableSet<CrewEntity> = mutableSetOf()
-
-        crews.map { crew ->
-            val existingCrew = crewService.findByTmdbId(crew.tmdbId)
-            if (existingCrew != null) {
-                movieCrews.add(existingCrew)
-            } else {
-                val savedCrew = crewService.saveEntity(crew)
-                movieCrews.add(savedCrew)
-            }
-        }
-
-        return movieCrews
-    }
-
-    private fun fetchMovieReviewsAndSaveInLocalDatabase(movies: List<MovieEntity>) {
-        movies.map {
-            getMovieReviews(it.tmdbId!!).map { review ->
-                saveAuthorDetailsInLocalDatabase(
-                    authorDetailsMapper.fromApiDataToEntity(review.authorDetails!!)
-                )
-
-                saveReviewsInLocalDatabase(
-                    reviewMapper.fromApiDataToEntity(review)
-                )
-            }
+        savedMovies.forEach { movie ->
+            val updatedMovie = movie.copy(
+                casts = fetchAndSaveCasts(movie),
+                crews = fetchAndSaveCrews(movie),
+                reviews = fetchAndSaveReviews(movie)
+            )
+            movieService.saveEntity(updatedMovie)
         }
     }
 
-    private fun saveAuthorDetailsInLocalDatabase(authorDetails: AuthorDetailsEntity) : AuthorDetailsEntity {
-        val existingAuthorDetails = authorDetailsService.findByNameOrUsernameIgnoreCase(authorDetails.name, authorDetails.username)
+    private fun fetchAndSaveCasts(movie: MovieEntity): MutableSet<CastEntity> {
+        val casts = getMovieCredits(movie.tmdbId!!).cast.map { castMapper.fromApiDataToEntity(it) }
+        return castService.saveAllEntities(casts).toMutableSet()
+    }
+
+    private fun fetchAndSaveCrews(movie: MovieEntity): MutableSet<CrewEntity> {
+        val crews = getMovieCredits(movie.tmdbId!!).crew.map { crewMapper.fromApiDataToEntity(it) }
+        return crewService.saveAllEntities(crews).toMutableSet()
+    }
+
+    private fun fetchAndSaveReviews(movie: MovieEntity): MutableList<ReviewEntity> {
+        val reviews = getMovieReviews(movie.tmdbId!!)
+        return reviews.map { review ->
+            val authorDetails: AuthorDetailsEntity = authorDetailsMapper.fromApiDataToEntity(review.authorDetails!!)
+            val savedAuthorDetails = saveAuthorDetails(authorDetails)
+
+            val reviewEntity: ReviewEntity = reviewMapper.fromApiDataToEntity(review)
+            reviewEntity.authorDetails = savedAuthorDetails
+            reviewEntity.movie = movie
+            reviewService.saveEntity(reviewEntity)
+        }.toMutableList()
+    }
+
+    private fun saveAuthorDetails(authorDetails: AuthorDetailsEntity) : AuthorDetailsEntity {
+        val existingAuthorDetails: AuthorDetailsEntity? = authorDetailsService.findByNameOrUsernameIgnoreCase(authorDetails.name, authorDetails.username)
         return existingAuthorDetails ?: authorDetailsService.saveEntity(authorDetails)
-    }
-
-    private fun saveReviewsInLocalDatabase(reviw: ReviewEntity) {
-        reviewService.saveEntity(reviw)
     }
 
     /**

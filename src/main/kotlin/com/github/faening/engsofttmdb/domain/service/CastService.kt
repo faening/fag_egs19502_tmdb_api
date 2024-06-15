@@ -5,6 +5,8 @@ import com.github.faening.engsofttmdb.data.repository.CastRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.CastMapper
 import com.github.faening.engsofttmdb.domain.model.Cast
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -13,6 +15,9 @@ class CastService @Autowired constructor(
     private val repository: CastRepository,
     private val mapper: CastMapper
 ) : BaseService<CastEntity, Cast, Cast> {
+
+    @PersistenceContext
+    private lateinit var entityManager: EntityManager
 
     override fun getAllEntities(): List<CastEntity> {
         return repository.findAll()
@@ -35,11 +40,14 @@ class CastService @Autowired constructor(
     }
 
     override fun saveEntity(entity: CastEntity): CastEntity {
+        if (entity.id != null && entityManager.contains(entity).not()) {
+            return repository.save(entityManager.merge(entity))
+        }
         return repository.save(entity)
     }
 
     override fun saveAllEntities(entities: List<CastEntity>): List<CastEntity> {
-        return repository.saveAll(entities)
+        return entities.map { saveEntity(it) }
     }
 
     override fun save(request: Cast): Cast {

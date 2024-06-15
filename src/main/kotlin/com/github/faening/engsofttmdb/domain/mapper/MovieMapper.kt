@@ -2,28 +2,35 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
+import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.data.repository.GenreRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Movie
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 class MovieMapper(
     private val genreRepository: GenreRepository,
     private val genreMapper: GenreMapper,
     private val castMapper: CastMapper,
-    private val crewMapper: CrewMapper
+    private val crewMapper: CrewMapper,
+    private val reviewMapper: ReviewMapper
 ) : BaseMapper<MovieApiData, MovieEntity, Movie> {
 
     override fun fromApiDataToEntity(data: MovieApiData): MovieEntity {
-        val movies = MovieEntity(
+        val genres: MutableSet<GenreEntity> = data.genreIds.mapNotNull {
+            genreRepository.findByTmdbId(it)
+        }.toMutableSet()
+
+        return MovieEntity(
             id = null,
+            tmdbId = data.id,
             adult = data.adult,
             backdropPath = data.backdropPath,
-            genres = mutableSetOf(),
-            tmdbId = data.id,
+            genres = genres,
             originalLanguage = data.originalLanguage,
             originalTitle = data.originalTitle,
             overview = data.overview,
@@ -34,23 +41,11 @@ class MovieMapper(
             video = data.video,
             voteAverage = data.voteAverage,
             voteCount = data.voteCount,
-            casts = mutableSetOf(),
-            crews = mutableSetOf(),
-            metadata = null,
+            metadata = MetadataEntity(
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
-
-        /**
-         * Esse trecho de código é responsável por buscar os gêneros do filme na base de dados local.
-         * Isso é feito aqui pois a API do TMDB não retorna os gêneros dos filmes, apenas os ids dos gêneros. Então, é
-         * necessário buscar os gêneros na base de dados local para associar ao filme.
-         */
-        val genres: MutableSet<GenreEntity> = data.genreIds.mapNotNull {
-            genreRepository.findByTmdbId(it)
-        }.toMutableSet()
-
-        movies.genres.addAll(genres)
-
-        return movies
     }
 
     override fun fromEntityToDomain(entity: MovieEntity): Movie {
@@ -70,8 +65,9 @@ class MovieMapper(
             video = entity.video,
             voteAverage = entity.voteAverage,
             voteCount = entity.voteCount,
-            casts = entity.casts.map { castMapper.fromEntityToDomain(it) },
-            crews = entity.crews.map { crewMapper.fromEntityToDomain(it) },
+            casts = entity.casts?.map { castMapper.fromEntityToDomain(it) } ?: emptyList(),
+            crews = entity.crews?.map { crewMapper.fromEntityToDomain(it) } ?: emptyList(),
+            reviews = entity.reviews?.map { reviewMapper.fromEntityToDomain(it) } ?: emptyList(),
             createdAt = entity.metadata?.createdAt,
             updatedAt = entity.metadata?.updatedAt,
         )
@@ -96,6 +92,7 @@ class MovieMapper(
             voteCount = domain.voteCount ?: 0,
             casts = domain.casts?.map { castMapper.fromDomainToEntity(it) }?.toMutableSet() ?: mutableSetOf(),
             crews = domain.crews?.map { crewMapper.fromDomainToEntity(it) }?.toMutableSet() ?: mutableSetOf(),
+            reviews = domain.reviews?.map { reviewMapper.fromDomainToEntity(it) }?.toMutableList() ?: mutableListOf(),
             metadata = null,
         )
     }
@@ -120,6 +117,7 @@ class MovieMapper(
             voteCount = request.voteCount ?: entity.voteCount,
             casts = request.casts?.map { castMapper.fromDomainToEntity(it) }?.toMutableSet() ?: entity.casts,
             crews = request.crews?.map { crewMapper.fromDomainToEntity(it) }?.toMutableSet() ?: entity.crews,
+            reviews = request.reviews?.map { reviewMapper.fromDomainToEntity(it) }?.toMutableList() ?: entity.reviews,
             metadata = entity.metadata,
         )
     }

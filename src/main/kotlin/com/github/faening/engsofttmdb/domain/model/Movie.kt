@@ -22,6 +22,7 @@ data class Movie(
     val voteCount: Int? = null,
     val casts: List<Cast>? = emptyList(),
     val crews: List<Crew>? = emptyList(),
+    val reviews: List<Review>? = emptyList(),
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 ) : Serializable {
@@ -35,7 +36,6 @@ data class Movie(
         if (id != other.id) return false
         if (adult != other.adult) return false
         if (backdropPath != other.backdropPath) return false
-        if (genres != other.genres) return false
         if (tmdbId != other.tmdbId) return false
         if (originalLanguage != other.originalLanguage) return false
         if (originalTitle != other.originalTitle) return false
@@ -47,8 +47,6 @@ data class Movie(
         if (video != other.video) return false
         if (voteAverage != other.voteAverage) return false
         if (voteCount != other.voteCount) return false
-        if (casts != other.casts) return false
-        if (crews != other.crews) return false
         if (createdAt != other.createdAt) return false
         if (updatedAt != other.updatedAt) return false
 

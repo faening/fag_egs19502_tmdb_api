@@ -5,8 +5,10 @@ CREATE TABLE IF NOT EXISTS `review` (
     `content` TEXT NOT NULL,
     `tmdb_id` VARCHAR(100),
     `url` VARCHAR(100),
+    `movie_id` BIGINT,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`author_details_id`) REFERENCES `author_details` (`id`)
+    FOREIGN KEY (`author_details_id`) REFERENCES `author_details` (`id`),
+    FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`)
 );

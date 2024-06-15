@@ -5,6 +5,8 @@ import com.github.faening.engsofttmdb.data.repository.CrewRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
 import com.github.faening.engsofttmdb.domain.model.Crew
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -13,6 +15,9 @@ class CrewService @Autowired constructor(
     private val repository: CrewRepository,
     private val mapper: CrewMapper
 ) : BaseService<CrewEntity, Crew, Crew> {
+
+    @PersistenceContext
+    private lateinit var entityManager: EntityManager
 
     override fun getAllEntities(): List<CrewEntity> {
         return repository.findAll()
@@ -35,11 +40,14 @@ class CrewService @Autowired constructor(
     }
 
     override fun saveEntity(entity: CrewEntity): CrewEntity {
+        if (entity.id != null && entityManager.contains(entity).not()) {
+            return repository.save(entityManager.merge(entity))
+        }
         return repository.save(entity)
     }
 
     override fun saveAllEntities(entities: List<CrewEntity>): List<CrewEntity> {
-        return repository.saveAll(entities)
+        return entities.map { saveEntity(it) }
     }
 
     override fun save(request: Crew): Crew {
