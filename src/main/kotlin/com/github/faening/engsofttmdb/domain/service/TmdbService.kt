@@ -164,27 +164,6 @@ class TmdbService @Autowired constructor(
     }
 
     /**
-     * Este método realiza a busca de todas as séries de TV disponíveis na API do TMDB.
-     *
-     * @return Retorna uma lista de objetos do tipo TvData.
-     */
-    fun getAllTvShows(): List<TvApiData> {
-        var tvApiData = emptyList<TvApiData>()
-        val call = tmdbApi.getAllTvShows()
-
-        try {
-            val response = call.execute()
-            if (response.isSuccessful) {
-                tvApiData = response.body()?.results ?: emptyList()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return tvApiData
-    }
-
-    /**
      * Este método realiza a busca das avaliações de um filme específico na API do TMDB.
      *
      * @param movieId ID do filme.

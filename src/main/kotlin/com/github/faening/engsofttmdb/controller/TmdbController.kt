@@ -31,11 +31,6 @@ class TmdbController @Autowired constructor(
         return ResponseEntity.ok(tmdbService.getAllMovies())
     }
 
-    @GetMapping("/tv")
-    fun getAllTvShows(): ResponseEntity<List<TvApiData>> {
-        return ResponseEntity.ok(tmdbService.getAllTvShows())
-    }
-
     @GetMapping("/genres")
     fun getAllGenres(): ResponseEntity<GenrePageApiData> {
         return ResponseEntity.ok(tmdbService.getAllGenres())

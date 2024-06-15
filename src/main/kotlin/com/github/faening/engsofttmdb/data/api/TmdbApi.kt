@@ -16,9 +16,6 @@ interface TmdbApi {
     @GET("discover/movie")
     fun getAllMovies(@Query("language") language: String = "pt-BR"): Call<ResponsePageApiData<MovieApiData>>
 
-    @GET("discover/tv")
-    fun getAllTvShows(@Query("language") language: String = "pt-BR"): Call<ResponsePageApiData<TvApiData>>
-
     @GET("genre/movie/list")
     fun getAllGenres(@Query("language") language: String = "pt-BR"): Call<GenrePageApiData>
 
