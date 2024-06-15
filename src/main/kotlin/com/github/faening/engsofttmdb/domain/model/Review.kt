@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class Review(
     val id: Long?,
     val author: String,
-    var authorDetailsId: AuthorDetails?,
+    var authorDetails: AuthorDetails?,
     val content: String,
     val tmdbId: String?,
     val url: String?,
