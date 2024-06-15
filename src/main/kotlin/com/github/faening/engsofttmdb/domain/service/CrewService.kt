@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.model.db.CrewEntity
 import com.github.faening.engsofttmdb.data.repository.CrewRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
 import com.github.faening.engsofttmdb.domain.model.Crew
 import org.springframework.beans.factory.annotation.Autowired

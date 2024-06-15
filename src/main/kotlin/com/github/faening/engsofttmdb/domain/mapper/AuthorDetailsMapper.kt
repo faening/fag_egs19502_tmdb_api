@@ -3,6 +3,7 @@ package com.github.faening.engsofttmdb.domain.mapper
 import com.github.faening.engsofttmdb.data.model.api.AuthorDetailsApiData
 import com.github.faening.engsofttmdb.data.model.db.AuthorDetailsEntity
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
+import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.AuthorDetails
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.GenreApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
+import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Genre
 import org.springframework.stereotype.Service
 

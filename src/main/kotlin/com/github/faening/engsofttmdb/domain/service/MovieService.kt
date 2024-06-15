@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.data.repository.MovieRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.MovieMapper
 import com.github.faening.engsofttmdb.domain.model.Movie
 import org.springframework.beans.factory.annotation.Autowired

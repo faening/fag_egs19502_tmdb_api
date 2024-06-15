@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.data.repository.GenreRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
 import com.github.faening.engsofttmdb.domain.model.Genre
 import org.springframework.beans.factory.annotation.Autowired

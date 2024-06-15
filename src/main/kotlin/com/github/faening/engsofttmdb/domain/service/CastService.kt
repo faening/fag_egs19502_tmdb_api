@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.model.db.CastEntity
 import com.github.faening.engsofttmdb.data.repository.CastRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.CastMapper
 import com.github.faening.engsofttmdb.domain.model.Cast
 import org.springframework.beans.factory.annotation.Autowired

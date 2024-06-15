@@ -1,6 +1,6 @@
 package com.github.faening.engsofttmdb.controller
 
-import com.github.faening.engsofttmdb.domain.service.BaseService
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

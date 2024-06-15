@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.model.db.AuthorDetailsEntity
 import com.github.faening.engsofttmdb.data.repository.AuthorDetailsRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.AuthorDetailsMapper
 import com.github.faening.engsofttmdb.domain.model.AuthorDetails
 import org.springframework.beans.factory.annotation.Autowired

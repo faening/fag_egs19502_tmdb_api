@@ -1,4 +1,4 @@
-package com.github.faening.engsofttmdb.domain.mapper
+package com.github.faening.engsofttmdb.domain.contract
 
 import org.springframework.stereotype.Service
 

@@ -2,6 +2,7 @@ package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.model.db.ReviewEntity
 import com.github.faening.engsofttmdb.data.repository.ReviewRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.ReviewMapper
 import com.github.faening.engsofttmdb.domain.model.Review
 import org.springframework.beans.factory.annotation.Autowired

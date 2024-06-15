@@ -4,6 +4,7 @@ import com.github.faening.engsofttmdb.data.model.api.ReviewApiData
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.data.model.db.ReviewEntity
 import com.github.faening.engsofttmdb.data.repository.AuthorDetailsRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Review
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

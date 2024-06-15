@@ -4,6 +4,7 @@ import com.github.faening.engsofttmdb.data.model.api.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.data.repository.GenreRepository
+import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Movie
 import org.springframework.stereotype.Service
 import java.time.LocalDate
