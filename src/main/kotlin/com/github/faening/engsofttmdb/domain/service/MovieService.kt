@@ -3,15 +3,24 @@ package com.github.faening.engsofttmdb.domain.service
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.data.repository.MovieRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
+import com.github.faening.engsofttmdb.domain.mapper.CastMapper
+import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
 import com.github.faening.engsofttmdb.domain.mapper.MovieMapper
+import com.github.faening.engsofttmdb.domain.mapper.ReviewMapper
+import com.github.faening.engsofttmdb.domain.model.Cast
+import com.github.faening.engsofttmdb.domain.model.Crew
 import com.github.faening.engsofttmdb.domain.model.Movie
+import com.github.faening.engsofttmdb.domain.model.Review
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class MovieService @Autowired constructor(
+class MovieService<T, U, V> @Autowired constructor(
     private val repository: MovieRepository,
     private val mapper: MovieMapper,
+    private val castMapper: CastMapper,
+    private val crewMapper: CrewMapper,
+    private val reviewMapper: ReviewMapper
 ) : BaseService<MovieEntity, Movie, Movie> {
 
     override fun getAllEntities(): List<MovieEntity> {
@@ -76,6 +85,24 @@ class MovieService @Autowired constructor(
     override fun delete(id: Long): Boolean {
         val entity = getEntityById(id)
         return deleteEntity(entity)
+    }
+
+    fun getMovieCasts(movieId: Long): List<Cast> {
+        val movie = getEntityById(movieId)
+        val casts = movie.casts?.map { cast -> castMapper.fromEntityToDomain(cast) }
+        return casts ?: emptyList()
+    }
+
+    fun getMovieCrews(movieId: Long): List<Crew> {
+        val movie = getEntityById(movieId)
+        val crews = movie.crews?.map { crew -> crewMapper.fromEntityToDomain(crew) }
+        return crews ?: emptyList()
+    }
+
+    fun getMovieReviews(movieId: Long): List<Review> {
+        val movie = getEntityById(movieId)
+        val reviews = movie.reviews?.map { review -> reviewMapper.fromEntityToDomain(review) }
+        return reviews ?: emptyList()
     }
 
 }

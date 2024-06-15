@@ -13,7 +13,7 @@ class TmdbService @Autowired constructor(
     private val tmdbApi: TmdbApi,
     private val genreService: GenreService,
     private val genreMapper: GenreMapper,
-    private val movieService: MovieService,
+    private val movieService: MovieService<Any?, Any?, Any?>,
     private val movieMapper: MovieMapper,
     private val castService: CastService,
     private val castMapper: CastMapper,
