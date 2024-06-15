@@ -1,6 +1,10 @@
 package com.github.faening.engsofttmdb.controller
 
-import com.github.faening.engsofttmdb.data.model.api.*
+import com.github.faening.engsofttmdb.data.model.api.authentication.AuthenticationApiData
+import com.github.faening.engsofttmdb.data.model.api.credits.CreditsApiData
+import com.github.faening.engsofttmdb.data.model.api.genres.GenresPageApiData
+import com.github.faening.engsofttmdb.data.model.api.movie.MovieApiData
+import com.github.faening.engsofttmdb.data.model.api.reviews.ReviewApiData
 import com.github.faening.engsofttmdb.domain.service.TmdbService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -32,7 +36,7 @@ class TmdbController @Autowired constructor(
     }
 
     @GetMapping("/genres")
-    fun getAllGenres(): ResponseEntity<GenrePageApiData> {
+    fun getAllGenres(): ResponseEntity<GenresPageApiData> {
         return ResponseEntity.ok(tmdbService.getAllGenres())
     }
 

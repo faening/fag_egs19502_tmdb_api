@@ -1,6 +1,6 @@
 package com.github.faening.engsofttmdb.domain.mapper
 
-import com.github.faening.engsofttmdb.data.model.api.MovieApiData
+import com.github.faening.engsofttmdb.data.model.api.movie.MovieApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity

@@ -1,6 +1,6 @@
 package com.github.faening.engsofttmdb.domain.mapper
 
-import com.github.faening.engsofttmdb.data.model.api.ReviewApiData
+import com.github.faening.engsofttmdb.data.model.api.reviews.ReviewApiData
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.data.model.db.ReviewEntity
 import com.github.faening.engsofttmdb.data.repository.AuthorDetailsRepository

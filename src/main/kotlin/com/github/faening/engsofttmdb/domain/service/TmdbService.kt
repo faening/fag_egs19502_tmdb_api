@@ -1,7 +1,12 @@
 package com.github.faening.engsofttmdb.domain.service
 
 import com.github.faening.engsofttmdb.data.api.TmdbApi
-import com.github.faening.engsofttmdb.data.model.api.*
+import com.github.faening.engsofttmdb.data.model.api.authentication.AuthenticationApiData
+import com.github.faening.engsofttmdb.data.model.api.credits.CreditsApiData
+import com.github.faening.engsofttmdb.data.model.api.genres.GenreApiData
+import com.github.faening.engsofttmdb.data.model.api.genres.GenresPageApiData
+import com.github.faening.engsofttmdb.data.model.api.movie.MovieApiData
+import com.github.faening.engsofttmdb.data.model.api.reviews.ReviewApiData
 import com.github.faening.engsofttmdb.data.model.db.*
 import com.github.faening.engsofttmdb.domain.mapper.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -104,14 +109,14 @@ class TmdbService @Autowired constructor(
      *
      * @return Retorna um objeto do tipo GenrePageApiData.
      */
-    fun getAllGenres(): GenrePageApiData {
-        var genreData = GenrePageApiData(emptyList())
+    fun getAllGenres(): GenresPageApiData {
+        var genreData = GenresPageApiData(emptyList())
         val call = tmdbApi.getAllGenres()
 
         try {
             val response = call.execute()
             if (response.isSuccessful) {
-                genreData = (response.body() ?: GenrePageApiData(emptyList()))
+                genreData = (response.body() ?: GenresPageApiData(emptyList()))
             }
         } catch (e: Exception) {
             e.printStackTrace()

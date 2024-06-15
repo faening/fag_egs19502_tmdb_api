@@ -1,6 +1,6 @@
 package com.github.faening.engsofttmdb.domain.mapper
 
-import com.github.faening.engsofttmdb.data.model.api.CastApiData
+import com.github.faening.engsofttmdb.data.model.api.credits.CastApiData
 import com.github.faening.engsofttmdb.data.model.db.CastEntity
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
