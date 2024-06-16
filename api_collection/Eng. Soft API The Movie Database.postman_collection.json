@@ -1,0 +1,961 @@
+{
+	"info": {
+		"_postman_id": "9068dae4-bd49-484a-bb34-9ad7429f971e",
+		"name": "Eng. Soft API The Movie Database",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7391085"
+	},
+	"item": [
+		{
+			"name": "Greetings",
+			"item": [
+				{
+					"name": "Greeting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/greeting",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"greeting"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tmdb Api",
+			"item": [
+				{
+					"name": "Authenticate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/tmdb/authenticate",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"tmdb",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Populate Local Database",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/tmdb/populate",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"tmdb",
+								"populate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Genres",
+			"item": [
+				{
+					"name": "Genres",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/genres",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Genres / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/genres/11",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"genres",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Genres",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tmdbId\": 72,\r\n    \"name\": \"Novo Gênero\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/genres",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Genres / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 39,\r\n    \"tmdbId\": 75,\r\n    \"name\": \"Novo Gênero - Atualizado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/genres/39",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"genres",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Genres / :id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/genres/39",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"genres",
+								"39"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"adult\": false,\r\n    \"backdropPath\": \"/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg\",\r\n    \"genreIds\": [\r\n        3,\r\n        2,\r\n        5\r\n    ],\r\n    \"tmdbId\": 1022789,\r\n    \"originalLanguage\": \"en\",\r\n    \"originalTitle\": \"New Movie\",\r\n    \"overview\": \"Lorem ipsum set dolor imet...\",\r\n    \"popularity\": 3553.5,\r\n    \"posterPath\": \"/9h2KgGXSmWigNTn3kQdEFFngj9i.jpg\",\r\n    \"releaseDate\": \"2024-06-11\",\r\n    \"title\": \"Divertida Mente 2\",\r\n    \"video\": false,\r\n    \"voteAverage\": 7.6,\r\n    \"voteCount\": 118\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/movies",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 81,\r\n    \"adult\": true,\r\n    \"backdropPath\": \"/kYgQzzjNis5jJalYtIHgrom0gOx.jpg\",\r\n    \"genreIds\": [12, 16, 28],\r\n    \"idTmdb\": 2030405,\r\n    \"originalLanguage\": \"en\",\r\n    \"originalTitle\": \"Novo Filme - Atualizado\",\r\n    \"overview\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\r\n    \"popularity\": 687.762,\r\n    \"posterPath\": \"/aNK6MA5EApIo0UJE7ZWSYcZBJKy.jpg\",\r\n    \"releaseDate\": \"2024-03-02\",\r\n    \"title\": \"Novo Filme - Atualizado\",\r\n    \"video\": false,\r\n    \"voteAverage\": 7.132,\r\n    \"voteCount\": 1804\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/movies/81",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/81",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id / Casts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/1/casts",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"1",
+								"casts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id / Crews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/1/crews",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"1",
+								"crews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id / Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/1/reviews",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies / :id / Videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/1/videos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"1",
+								"videos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Casts",
+			"item": [
+				{
+					"name": "Casts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/casts",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"casts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Casts / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/casts/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"casts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Casts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"adult\": false,\r\n    \"gender\": 2,\r\n    \"tmdbId\": 4796022,\r\n    \"knownForDepartment\": \"Acting\",\r\n    \"name\": \"New Cast\",\r\n    \"originalName\": \"\",\r\n    \"popularity\": 23.048,\r\n    \"profilePath\": \"/tgCkGE0LIggyjMmgSwHhpZAkfJs.jpg\",\r\n    \"castId\": 9,\r\n    \"character\": \"Noa\",\r\n    \"creditId\": \"630449a821118f007d331afa\",\r\n    \"order\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/casts",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"casts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Casts / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 61,\r\n    \"adult\": false,\r\n    \"gender\": 2,\r\n    \"tmdbId\": 4796022,\r\n    \"knownForDepartment\": \"Acting\",\r\n    \"name\": \"New Cast - Update\",\r\n    \"originalName\": \"\",\r\n    \"popularity\": 23.048,\r\n    \"profilePath\": \"/tgCkGE0LIggyjMmgSwHhpZAkfJs.jpg\",\r\n    \"castId\": 9,\r\n    \"character\": \"Noa\",\r\n    \"creditId\": \"630449a821118f007d331afa\",\r\n    \"order\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/casts/61",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"casts",
+								"61"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Casts / :id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/casts/61",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"casts",
+								"61"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Crews",
+			"item": [
+				{
+					"name": "Crews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/crews",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"crews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crews / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/crews/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"crews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crews",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"adult\": false,\r\n    \"gender\": 2,\r\n    \"tmdbId\": 1179066,\r\n    \"knownForDepartment\": \"Directing\",\r\n    \"name\": \"New Crew\",\r\n    \"originalName\": \"Wes Ball\",\r\n    \"popularity\": 23.531,\r\n    \"profilePath\": \"/zVPXrhuAxYAWlwDEWCaqeUPycFx.jpg\",\r\n    \"creditId\": \"5de6f63611386c001354710d\",\r\n    \"department\": \"Directing\",\r\n    \"job\": \"Director\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/crews",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"crews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Casts / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 54,\r\n    \"adult\": false,\r\n    \"gender\": 2,\r\n    \"tmdbId\": 1179066,\r\n    \"knownForDepartment\": \"Directing\",\r\n    \"name\": \"New Crew - Updated\",\r\n    \"originalName\": \"Wes Ball\",\r\n    \"popularity\": 23.531,\r\n    \"profilePath\": \"/zVPXrhuAxYAWlwDEWCaqeUPycFx.jpg\",\r\n    \"creditId\": \"5de6f63611386c001354710d\",\r\n    \"department\": \"Directing\",\r\n    \"job\": \"Director\",\r\n    \"createdAt\": \"2024-06-09T17:38:36.996397\",\r\n    \"updatedAt\": \"2024-06-09T17:38:36.996397\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/crews/54",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"crews",
+								"54"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Casts / :id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/casts/54",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"casts",
+								"54"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author Details",
+			"item": [
+				{
+					"name": "author-details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/author-details",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"author-details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "author-details / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/author-details/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"author-details",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "author-details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"New User\",\r\n    \"username\": \"New User\",\r\n    \"avatarPath\": \"/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg\",\r\n    \"rating\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/author-details",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"author-details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "author-details / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 35,\r\n    \"name\": \"New User - Updated\",\r\n    \"username\": \"New User - Updated\",\r\n    \"avatarPath\": \"/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg\",\r\n    \"rating\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/author-details/35",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"author-details",
+								"35"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "author-details / :id Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/author-details/35",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"author-details",
+								"35"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/reviews",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviews / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/reviews/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviews",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\": \"HoFplix\",\r\n    \"authorDetails\": {\r\n        \"id\": 1,\r\n        \"name\": \"Hotplix\",\r\n        \"username\": \"Hotplix\",\r\n        \"avatarPath\": \"/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg\",\r\n        \"rating\": 8\r\n    },\r\n    \"content\": \"Movie description here...\",\r\n    \"tmdbId\": \"666193da58a1f88965b77e41\",\r\n    \"url\": \"https://www.themoviedb.org/review/666193da58a1f88965b77e41\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/reviews",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviews / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 79,\r\n    \"author\": \"HoFplix\",\r\n    \"authorDetails\": {\r\n        \"id\": 1,\r\n        \"name\": \"Hotplix\",\r\n        \"username\": \"Hotplix\",\r\n        \"avatarPath\": \"/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg\",\r\n        \"rating\": 8\r\n    },\r\n    \"content\": \"Movie description updated\",\r\n    \"tmdbId\": \"666193da58a1f88965b77e41\",\r\n    \"url\": \"https://www.themoviedb.org/review/666193da58a1f88965b77e41\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/reviews/79",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reviews",
+								"79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviews / :id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/reviews/79",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reviews",
+								"79"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Videos",
+			"item": [
+				{
+					"name": "videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/videos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"videos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "videos / :id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/videos/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"videos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "videos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"movieId\": 1,\r\n    \"iso6391\": \"en\",\r\n    \"iso31661\": \"US\",\r\n    \"name\": \"Meet the Cast of Inside Out 2\",\r\n    \"videoKey\": \"uyzQw8-8k9U\",\r\n    \"site\": \"YouTube\",\r\n    \"size\": 1080,\r\n    \"type\": \"Behind the Scenes\",\r\n    \"official\": true,\r\n    \"publishedAt\": \"2024-06-07T00:37:41.000Z\",\r\n    \"tmdbId\": \"6662b013eba41395c5528e84\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/videos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"videos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "videos / :id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 378,\r\n    \"movieId\": 1,\r\n    \"iso6391\": \"en\",\r\n    \"iso31661\": \"US\",\r\n    \"name\": \"Meet the Cast of Inside Out 2\",\r\n    \"videoKey\": \"uyzQw8-8k9U\",\r\n    \"site\": \"YouTube\",\r\n    \"size\": 1080,\r\n    \"type\": \"Behind the Scenes\",\r\n    \"official\": true,\r\n    \"publishedAt\": \"2024-06-07T00:37:41.000Z\",\r\n    \"tmdbId\": \"6662b013eba41395c5528e84\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/videos/378",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"videos",
+								"378"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "videos / :id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/videos/378",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"videos",
+								"378"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
