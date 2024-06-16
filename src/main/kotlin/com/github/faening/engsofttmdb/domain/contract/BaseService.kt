@@ -17,9 +17,9 @@ interface BaseService<ENT, REQ, RES> {
 
     fun saveAllEntities(entities: List<ENT>): List<ENT>
 
-    fun save(request: REQ): RES
+    fun save(request: REQ): RES?
 
-    fun saveAll(request: List<REQ>): List<RES>
+    fun saveAll(request: List<REQ>): List<RES>?
 
     fun updateEntity(entity: ENT): RES
 

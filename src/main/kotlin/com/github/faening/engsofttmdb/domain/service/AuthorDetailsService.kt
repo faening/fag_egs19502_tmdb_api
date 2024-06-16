@@ -25,7 +25,12 @@ class AuthorDetailsService @Autowired constructor(
     }
 
     override fun getEntityById(id: Long): AuthorDetailsEntity {
-        return repository.findById(id).orElseThrow { throw Exception("AuthorDetails not found") }
+        return try {
+            repository.findById(id).orElseThrow { throw Exception("AuthorDetails not found") }
+        } catch (exception: Exception) {
+            println(exception.message)
+            throw exception
+        }
     }
 
     override fun getById(id: Long): AuthorDetails {
@@ -42,18 +47,19 @@ class AuthorDetailsService @Autowired constructor(
         return repository.saveAll(entities)
     }
 
-    override fun save(request: AuthorDetails): AuthorDetails {
-        request.let {
-            val savedEntity = saveEntity(mapper.fromDomainToEntity(it))
-            return mapper.fromEntityToDomain(savedEntity)
+    override fun save(request: AuthorDetails): AuthorDetails? {
+        val entity = mapper.fromDomainToEntity(request)
+        return run {
+            val savedEntity = saveEntity(entity)
+            mapper.fromEntityToDomain(savedEntity)
         }
     }
 
-    override fun saveAll(request: List<AuthorDetails>): List<AuthorDetails> {
-        request.let {
-            val entities = request.map { mapper.fromDomainToEntity(it) }
+    override fun saveAll(request: List<AuthorDetails>): List<AuthorDetails>? {
+        val entities = request.map { mapper.fromDomainToEntity(it) }
+        return request.let {
             val savedEntities = saveAllEntities(entities)
-            return savedEntities.map { mapper.fromEntityToDomain(it) }
+            savedEntities.map { mapper.fromEntityToDomain(it) }
         }
     }
 
@@ -82,8 +88,8 @@ class AuthorDetailsService @Autowired constructor(
     }
 
     override fun delete(id: Long): Boolean {
+        val entity = getEntityById(id)
         id.let {
-            val entity = getEntityById(it)
             return deleteEntity(entity)
         }
     }
