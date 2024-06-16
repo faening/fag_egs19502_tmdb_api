@@ -2,9 +2,11 @@ package com.github.faening.engsofttmdb.domain.mapper
 
 import com.github.faening.engsofttmdb.data.model.api.genres.GenreApiData
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
+import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Genre
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre> {
@@ -15,7 +17,10 @@ class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre> {
             tmdbId = data.id,
             name = data.name,
             movies = mutableSetOf(),
-            metadata = null,
+            metadata = MetadataEntity(
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
     }
 
@@ -31,11 +36,14 @@ class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre> {
 
     override fun fromDomainToEntity(domain: Genre): GenreEntity {
         return GenreEntity(
-            id = domain.id ?: 0,
-            tmdbId = domain.tmdbId ?: 0,
+            id = domain.id,
+            tmdbId = domain.tmdbId,
             name = domain.name,
             movies = mutableSetOf(),
-            metadata = null,
+            metadata = MetadataEntity(
+                createdAt = domain.createdAt ?: LocalDateTime.now(),
+                updatedAt = domain.updatedAt ?: LocalDateTime.now()
+            )
         )
     }
 
@@ -46,7 +54,10 @@ class GenreMapper : BaseMapper<GenreApiData, GenreEntity, Genre> {
             tmdbId = request.tmdbId ?: entity.tmdbId,
             name = request.name ?: entity.name,
             movies = entity.movies,
-            metadata = entity.metadata,
+            metadata = MetadataEntity(
+                createdAt = entity.metadata?.createdAt ?: LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
     }
 
