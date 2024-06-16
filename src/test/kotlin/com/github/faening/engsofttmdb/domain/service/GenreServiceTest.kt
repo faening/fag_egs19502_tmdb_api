@@ -1,10 +1,10 @@
 package com.github.faening.engsofttmdb.domain.service
 
-import com.github.faening.engsofttmdb.data.model.db.CrewEntity
+import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
-import com.github.faening.engsofttmdb.data.repository.CrewRepository
-import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
-import com.github.faening.engsofttmdb.domain.model.Crew
+import com.github.faening.engsofttmdb.data.repository.GenreRepository
+import com.github.faening.engsofttmdb.domain.mapper.GenreMapper
+import com.github.faening.engsofttmdb.domain.model.Genre
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -18,57 +18,41 @@ import java.time.LocalDateTime
 import java.util.*
 
 @SpringBootTest(properties = ["spring.profiles.active=test"])
-class CrewServiceTest {
+class GenreServiceTest {
 
-    private lateinit var repository: CrewRepository
-    private lateinit var mapper: CrewMapper
-    private lateinit var service: CrewService
+    private lateinit var repository: GenreRepository
+    private lateinit var mapper: GenreMapper
+    private lateinit var service: GenreService
 
-    private lateinit var serviceSpy : CrewService
+    private lateinit var serviceSpy: GenreService
 
-    private var expectedEntity: MutableList<CrewEntity> = mutableListOf()
-    private var expectedValueObject: MutableList<Crew> = mutableListOf()
+    private var expectedEntity: MutableList<GenreEntity> = mutableListOf()
+    private var expectedValueObject: MutableList<Genre> = mutableListOf()
 
     @BeforeEach
-    fun setup() {
-        repository = Mockito.mock(CrewRepository::class.java)
-        mapper = Mockito.mock(CrewMapper::class.java)
-        service = CrewService(repository, mapper)
+    fun setUp() {
+        repository = Mockito.mock(GenreRepository::class.java)
+        mapper = Mockito.mock(GenreMapper::class.java)
+        service = GenreService(repository, mapper)
 
         serviceSpy = Mockito.spy(service)
 
         expectedEntity = mutableListOf(
-            CrewEntity(
+            GenreEntity(
                 id = 1L,
-                adult = false,
-                gender = 1,
-                tmdbId = 182001,
-                knownForDepartment = "Writing",
-                name = "crew_1",
-                originalName = "crew_1",
-                popularity = 26.804,
-                profilePath = "/rwmvRonpluV6dCPiQissYrchvSD.jpg",
-                creditId = "631bd6ad0d2f53007f5c9c41",
-                department = "Directing",
-                job = "Director",
+                tmdbId = 27,
+                name = "Ação",
+                movies = emptySet(),
                 metadata = MetadataEntity(
                     createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                     updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
                 )
             ),
-            CrewEntity(
+            GenreEntity(
                 id = 2L,
-                adult = false,
-                gender = 1,
-                tmdbId = 8103,
-                knownForDepartment = "Production",
-                name = "crew_2",
-                originalName = "crew_2",
-                popularity = 26.804,
-                profilePath = "/bqojcGtjzHDiUWgcpjbgY1KEyOx.jpg",
-                creditId = "631bd73351c01f007dcf1b97",
-                department = "Production",
-                job = "Producer",
+                tmdbId = 13,
+                name = "Aventura",
+                movies = emptySet(),
                 metadata = MetadataEntity(
                     createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                     updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
@@ -77,35 +61,17 @@ class CrewServiceTest {
         )
 
         expectedValueObject = mutableListOf(
-            Crew(
+            Genre(
                 id = 1L,
-                adult = false,
-                gender = 1,
-                tmdbId = 182001,
-                knownForDepartment = "Writing",
-                name = "crew_1",
-                originalName = "crew_1",
-                popularity = 26.804,
-                profilePath = "/rwmvRonpluV6dCPiQissYrchvSD.jpg",
-                creditId = "631bd6ad0d2f53007f5c9c41",
-                department = "Directing",
-                job = "Director",
+                tmdbId = 27,
+                name = "Ação",
                 createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                 updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
             ),
-            Crew(
+            Genre(
                 id = 2L,
-                adult = false,
-                gender = 1,
-                tmdbId = 8103,
-                knownForDepartment = "Production",
-                name = "crew_2",
-                originalName = "crew_2",
-                popularity = 26.804,
-                profilePath = "/bqojcGtjzHDiUWgcpjbgY1KEyOx.jpg",
-                creditId = "631bd73351c01f007dcf1b97",
-                department = "Production",
-                job = "Producer",
+                tmdbId = 13,
+                name = "Aventura",
                 createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                 updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
             )
@@ -115,43 +81,43 @@ class CrewServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar uma lista de entidades do tipo `CrewEntity`")
-    fun getAllEntities_ShouldReturnListOfCrewEntities_WhenRequestIsSuccessful() {
+    @DisplayName("Deve retornar uma lista de entidades do tipo `GenreEntity`")
+    fun getAllEntities_ShouldReturnListOfGenreEntities_WhenRequestIsSuccessful() {
         val expected = expectedEntity
         `when`(repository.findAll()).thenReturn(expected)
 
         val actual = serviceSpy.getAllEntities()
 
-        assertEquals(expected, actual, "Deve retornar uma lista de entidades do tipo `CrewEntity`")
+        assertEquals(expected, actual, "Deve retornar uma lista de entidades do tipo `GenreEntity`")
     }
 
     @Test
-    @DisplayName("Deve retornar uma lista de `Crew`")
-    fun getAll_ShouldReturnListOfCrew_WhenRequestIsSuccessful() {
+    @DisplayName("Deve retornar uma lista de `Genre`")
+    fun getAll_ShouldReturnListOfGenre_WhenRequestIsSuccessful() {
         val expectedEntities = expectedEntity
         val expected = expectedEntities.map { mapper.fromEntityToDomain(it) }
         `when`(repository.findAll()).thenReturn(expectedEntities)
 
         val actual = serviceSpy.getAll()
 
-        assertEquals(expected, actual, "Deve retornar uma lista de `Crew`")
+        assertEquals(expected, actual, "Deve retornar uma lista de `Genre`")
     }
 
     @Test
-    @DisplayName("Deve retornar uma entidade `CrewEntity` pelo ID")
-    fun getEntityById_ShouldReturnCrewEntity_WhenIdIsGiven() {
+    @DisplayName("Deve retornar uma entidade `GenreEntity` pelo ID")
+    fun getEntityById_ShouldReturnGenreEntity_WhenIdIsGiven() {
         val expected = expectedEntity.first()
         val id = expected.id
         `when`(id?.let { repository.findById(it) }).thenReturn(Optional.of(expected))
 
         val actual = id?.let { serviceSpy.getEntityById(it) }
 
-        assertEquals(expected, actual, "Deve retornar uma entidade `CrewEntity` pelo ID")
+        assertEquals(expected, actual, "Deve retornar uma entidade `GenreEntity` pelo ID")
     }
 
     @Test
-    @DisplayName("Deve retornar um `Crew` pelo ID")
-    fun getById_ShouldReturnCrew_WhenIdIsGiven() {
+    @DisplayName("Deve retornar um `Genre` pelo ID")
+    fun getById_ShouldReturnGenre_WhenIdIsGiven() {
         val expectedEntity = expectedEntity.first()
         val id = expectedEntity.id
         val expected = mapper.fromEntityToDomain(expectedEntity)
@@ -159,34 +125,34 @@ class CrewServiceTest {
 
         val actual = id?.let { serviceSpy.getById(it) }
 
-        assertEquals(expected, actual, "Deve retornar um `Crew` pelo ID")
+        assertEquals(expected, actual, "Deve retornar um `Genre` pelo ID")
     }
 
     @Test
-    @DisplayName("Deve salvar uma entidade `CrewEntity`")
-    fun saveEntity_ShouldSaveCrewEntity_WhenEntityIsGiven() {
+    @DisplayName("Deve salvar uma entidade `GenreEntity`")
+    fun saveEntity_ShouldSaveGenreEntity_WhenEntityIsGiven() {
         val expected = expectedEntity.first()
         `when`(repository.save(expected)).thenReturn(expected)
 
         val actual = serviceSpy.saveEntity(expected)
 
-        assertEquals(expected, actual, "Deve salvar uma entidade `CrewEntity`")
+        assertEquals(expected, actual, "Deve salvar uma entidade `GenreEntity`")
     }
 
     @Test
-    @DisplayName("Deve salvar uma lista de `CrewEntity`")
-    fun saveAllEntities_ShouldSaveListOfCrewEntities_WhenListOfEntitiesIsGiven() {
+    @DisplayName("Deve salvar uma lista de `GenreEntity`")
+    fun saveAllEntities_ShouldSaveListOfGenreEntities_WhenListOfEntitiesIsGiven() {
         val expected = expectedEntity
         `when`(repository.saveAll(expected)).thenReturn(expected)
 
         val actual = serviceSpy.saveAllEntities(expected)
 
-        assertEquals(expected, actual, "Deve salvar uma lista de `CrewEntity`")
+        assertEquals(expected, actual, "Deve salvar uma lista de `GenreEntity`")
     }
 
     @Test
-    @DisplayName("Deve salvar um `Crew`")
-    fun save_ShouldSaveCrew_WhenRequestIsGiven() {
+    @DisplayName("Deve salvar um `Genre`")
+    fun save_ShouldSaveGenre_WhenRequestIsGiven() {
         val request = expectedValueObject.first()
         val entity = mapper.fromDomainToEntity(request)
 
@@ -199,13 +165,13 @@ class CrewServiceTest {
 
             val actual = serviceSpy.save(request)
 
-            assertEquals(expected, actual, "Deve salvar um `Crew`")
+            assertEquals(expected, actual, "Deve salvar um `Genre`")
         }
     }
 
     @Test
-    @DisplayName("Deve salvar uma lista de `Crew`")
-    fun saveAll_ShouldSaveListOfCrew_WhenListOfRequestsIsGiven() {
+    @DisplayName("Deve salvar uma lista de `Genre`")
+    fun saveAll_ShouldSaveListOfGenre_WhenListOfRequestsIsGiven() {
         val request = expectedValueObject
         val entities = request.map { mapper.fromDomainToEntity(it) }
         val expected = entities.map { mapper.fromEntityToDomain(it) }
@@ -222,12 +188,12 @@ class CrewServiceTest {
 
         val actual = serviceSpy.saveAll(request)
 
-        assertEquals(expected, actual, "Deve salvar uma lista de `Crew`")
+        assertEquals(expected, actual, "Deve salvar uma lista de `Genre`")
     }
 
     @Test
-    @DisplayName("Deve atualizar uma entidade `CrewEntity`")
-    fun updateEntity_ShouldUpdateCrewEntity_WhenEntityIsGiven() {
+    @DisplayName("Deve atualizar uma entidade `GenreEntity`")
+    fun updateEntity_ShouldUpdateGenreEntity_WhenEntityIsGiven() {
         val entity = expectedEntity.first()
         val expected = mapper.fromEntityToDomain(entity)
         `when`(repository.save(entity)).thenReturn(entity)
@@ -235,12 +201,12 @@ class CrewServiceTest {
 
         val actual = serviceSpy.updateEntity(entity)
 
-        assertEquals(expected, actual, "Deve atualizar uma entidade `CrewEntity`")
+        assertEquals(expected, actual, "Deve atualizar uma entidade `GenreEntity`")
     }
 
     @Test
-    @DisplayName("Deve atualizar um `Crew`")
-    fun update_ShouldUpdateCrew_WhenIdAndRequestAreGiven() {
+    @DisplayName("Deve atualizar um `Genre`")
+    fun update_ShouldUpdateGenre_WhenIdAndRequestAreGiven() {
         val id = 1L
         val request = expectedValueObject.first()
         val entity = mapper.fromDomainToEntity(request)
@@ -256,23 +222,23 @@ class CrewServiceTest {
 
             val actual = serviceSpy.update(id, request)
 
-            assertEquals(expected, actual, "Deve atualizar um `Crew`")
+            assertEquals(expected, actual, "Deve atualizar um `Genre`")
         }
     }
 
     @Test
-    @DisplayName("Deve deletar uma entidade `CrewEntity`")
-    fun deleteEntity_ShouldDeleteCrewEntity_WhenEntityIsGiven() {
+    @DisplayName("Deve deletar uma entidade `GenreEntity`")
+    fun deleteEntity_ShouldDeleteGenreEntity_WhenEntityIsGiven() {
         val entity = expectedEntity.first()
         val actual = serviceSpy.deleteEntity(entity)
 
         verify(repository).delete(entity)
-        assertTrue(actual, "Deve deletar uma entidade `CrewEntity`")
+        assertTrue(actual, "Deve deletar uma entidade `GenreEntitys`")
     }
 
     @Test
-    @DisplayName("Deve deletar um `Crew` pelo ID")
-    fun delete_ShouldDeleteCrew_WhenIdIsGiven() {
+    @DisplayName("Deve deletar um `Genre` pelo ID")
+    fun delete_ShouldDeleteGenre_WhenIdIsGiven() {
         val id = 1L
         val entity = expectedEntity.first()
 
@@ -283,7 +249,7 @@ class CrewServiceTest {
 
         verify(serviceSpy).getEntityById(id)
         verify(serviceSpy).deleteEntity(entity)
-        assertTrue(actual, "Deve deletar um `Crew` pelo ID")
+        assertTrue(actual, "Deve deletar um `Genre` pelo ID")
     }
 
 }
