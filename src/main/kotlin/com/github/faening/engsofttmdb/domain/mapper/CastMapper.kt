@@ -19,6 +19,7 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             tmdbId = data.id,
             knownForDepartment = data.knownForDepartment,
             name = data.name,
+            originalName = data.originalName,
             popularity = data.popularity,
             profilePath = data.profilePath,
             castId = data.castId,
@@ -41,6 +42,7 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             tmdbId = entity.tmdbId,
             knownForDepartment = entity.knownForDepartment,
             name = entity.name,
+            originalName = entity.originalName,
             popularity = entity.popularity,
             profilePath = entity.profilePath,
             castId = entity.castId,
@@ -60,6 +62,7 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             tmdbId = domain.tmdbId,
             knownForDepartment = domain.knownForDepartment,
             name = domain.name,
+            originalName = domain.originalName,
             popularity = domain.popularity,
             profilePath = domain.profilePath,
             castId = domain.castId,
@@ -83,6 +86,7 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             tmdbId = request.tmdbId ?: entity.tmdbId,
             knownForDepartment = request.knownForDepartment ?: entity.knownForDepartment,
             name = request.name ?: entity.name,
+            originalName = request.originalName ?: entity.originalName,
             popularity = request.popularity ?: entity.popularity,
             profilePath = request.profilePath ?: entity.profilePath,
             castId = request.castId ?: entity.castId,
@@ -90,7 +94,10 @@ class CastMapper : BaseMapper<CastApiData, CastEntity, Cast> {
             creditId = request.creditId ?: entity.creditId,
             order = request.order ?: entity.order,
             movies = entity.movies,
-            metadata = entity.metadata
+            metadata = MetadataEntity(
+                createdAt = entity.metadata?.createdAt ?: LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
     }
 
