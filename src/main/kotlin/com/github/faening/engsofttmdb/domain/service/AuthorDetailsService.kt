@@ -25,11 +25,8 @@ class AuthorDetailsService @Autowired constructor(
     }
 
     override fun getEntityById(id: Long): AuthorDetailsEntity {
-        return try {
-            repository.findById(id).orElseThrow { throw Exception("AuthorDetails not found") }
-        } catch (exception: Exception) {
-            println(exception.message)
-            throw exception
+        repository.findById(id).orElseThrow { throw Exception("AuthorDetails not found") }.let {
+            return it
         }
     }
 

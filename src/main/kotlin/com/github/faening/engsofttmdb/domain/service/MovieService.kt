@@ -23,9 +23,9 @@ class MovieService @Autowired constructor(
     }
 
     override fun getAll(): List<Movie> {
-        val entities = repository.findAll()
-        val moviesMapped = entities.map { movie -> mapper.fromEntityToDomain(movie) }
-        return moviesMapped
+        getAllEntities().let {
+            return it.map { movie -> mapper.fromEntityToDomain(movie) }
+        }
     }
 
     override fun getEntityById(id: Long): MovieEntity {
@@ -33,9 +33,9 @@ class MovieService @Autowired constructor(
     }
 
     override fun getById(id: Long): Movie {
-        val entity = getEntityById(id)
-        val movie = mapper.fromEntityToDomain(entity)
-        return movie
+        getEntityById(id).let {
+            return mapper.fromEntityToDomain(it)
+        }
     }
 
     override fun saveEntity(entity: MovieEntity): MovieEntity {
@@ -47,39 +47,48 @@ class MovieService @Autowired constructor(
     }
 
     override fun save(request: Movie): Movie {
-        val savedEntity = saveEntity(mapper.fromDomainToEntity(request))
-        val mappedDomain = mapper.fromEntityToDomain(savedEntity)
-        return mappedDomain
+        val entity = mapper.fromDomainToEntity(request)
+        return run {
+            val savedEntity = saveEntity(entity)
+            mapper.fromEntityToDomain(savedEntity)
+        }
     }
 
     override fun saveAll(request: List<Movie>): List<Movie> {
         val entities = request.map { mapper.fromDomainToEntity(it) }
-        val savedEntities = saveAllEntities(entities)
-        val mappedDomains = savedEntities.map { mapper.fromEntityToDomain(it) }
-        return mappedDomains
+       return request.let {
+            val savedEntities = saveAllEntities(entities)
+            savedEntities.map { mapper.fromEntityToDomain(it) }
+        }
     }
 
     override fun updateEntity(entity: MovieEntity): Movie {
-        val updatedEntity = repository.save(entity)
-        val mappedDomain = mapper.fromEntityToDomain(updatedEntity)
-        return mappedDomain
+        entity.let {
+            val updatedEntity = repository.save(entity)
+            return mapper.fromEntityToDomain(updatedEntity)
+        }
     }
 
     override fun update(id: Long, request: Movie): Movie {
-        val entity = getEntityById(id)
-        val mergedEntity = mapper.mergeEntityAndRequest(entity, request)
-        val updatedEntity = updateEntity(mergedEntity)
-        return updatedEntity
+        id.let {
+            val entity = getEntityById(id)
+            val mergedEntity = mapper.mergeEntityAndRequest(entity, request)
+            return updateEntity(mergedEntity)
+        }
     }
 
     override fun deleteEntity(entity: MovieEntity): Boolean {
-        repository.delete(entity)
-        return true
+        entity.let {
+            repository.delete(entity)
+            return true
+        }
     }
 
     override fun delete(id: Long): Boolean {
-        val entity = getEntityById(id)
-        return deleteEntity(entity)
+        id.let {
+            val entity = getEntityById(id)
+            return deleteEntity(entity)
+        }
     }
 
     fun getMovieCasts(movieId: Long): List<Cast> {

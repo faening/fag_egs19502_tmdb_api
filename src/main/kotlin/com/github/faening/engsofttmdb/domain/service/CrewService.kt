@@ -19,9 +19,9 @@ class CrewService @Autowired constructor(
     }
 
     override fun getAll(): List<Crew> {
-        val entities = repository.findAll()
-        val crewsMapped = entities.map { crew -> mapper.fromEntityToDomain(crew) }
-        return crewsMapped
+        getAllEntities().let {
+            return it.map { crew -> mapper.fromEntityToDomain(crew) }
+        }
     }
 
     override fun getEntityById(id: Long): CrewEntity {
@@ -29,9 +29,9 @@ class CrewService @Autowired constructor(
     }
 
     override fun getById(id: Long): Crew {
-        val entity = getEntityById(id)
-        val crew = mapper.fromEntityToDomain(entity)
-        return crew
+        getEntityById(id).let {
+            return mapper.fromEntityToDomain(it)
+        }
     }
 
     override fun saveEntity(entity: CrewEntity): CrewEntity {
@@ -59,16 +59,19 @@ class CrewService @Autowired constructor(
     }
 
     override fun updateEntity(entity: CrewEntity): Crew {
-        val updatedEntity = repository.save(entity)
-        val mappedDomain = mapper.fromEntityToDomain(updatedEntity)
-        return mappedDomain
+        entity.let {
+            val updatedEntity = repository.save(entity)
+            return mapper.fromEntityToDomain(updatedEntity)
+        }
     }
 
     override fun update(id: Long, request: Crew): Crew {
-        val entity = getEntityById(id)
-        val mergedEntity = mapper.mergeEntityAndRequest(entity, request)
-        val updatedEntity = updateEntity(mergedEntity)
-        return updatedEntity
+        id.let {
+            val entity = getEntityById(id)
+            val mergedEntity = mapper.mergeEntityAndRequest(entity, request)
+            val updatedEntity = updateEntity(mergedEntity)
+            return updatedEntity
+        }
     }
 
     override fun deleteEntity(entity: CrewEntity): Boolean {
@@ -77,8 +80,10 @@ class CrewService @Autowired constructor(
     }
 
     override fun delete(id: Long): Boolean {
-        val entity = getEntityById(id)
-        return deleteEntity(entity)
+        id.let {
+            val entity = getEntityById(id)
+            return deleteEntity(entity)
+        }
     }
 
 }

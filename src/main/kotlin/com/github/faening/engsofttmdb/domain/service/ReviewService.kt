@@ -39,21 +39,22 @@ class ReviewService @Autowired constructor(
     }
 
     override fun saveAllEntities(entities: List<ReviewEntity>): List<ReviewEntity> {
-        return entities.map { saveEntity(it) }
+        return repository.saveAll(entities)
     }
 
     override fun save(request: Review): Review {
-        request.let {
-            val savedEntity = saveEntity(mapper.fromDomainToEntity(it))
-            return mapper.fromEntityToDomain(savedEntity)
+        val entity = mapper.fromDomainToEntity(request)
+        return run {
+            val savedEntity = saveEntity(entity)
+            mapper.fromEntityToDomain(savedEntity)
         }
     }
 
     override fun saveAll(request: List<Review>): List<Review> {
-        request.let {
-            val entities = request.map { mapper.fromDomainToEntity(it) }
+        val entities = request.map { mapper.fromDomainToEntity(it) }
+        return request.let {
             val savedEntities = saveAllEntities(entities)
-            return savedEntities.map { mapper.fromEntityToDomain(it) }
+            savedEntities.map { mapper.fromEntityToDomain(it) }
         }
     }
 

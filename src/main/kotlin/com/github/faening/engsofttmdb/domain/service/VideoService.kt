@@ -39,21 +39,22 @@ class VideoService @Autowired constructor(
     }
 
     override fun saveAllEntities(entities: List<VideoEntity>): List<VideoEntity> {
-        return entities.map { saveEntity(it) }
+        return repository.saveAll(entities)
     }
 
     override fun save(request: Video): Video {
-        request.let {
-            val savedEntity = saveEntity(mapper.fromDomainToEntity(it))
-            return mapper.fromEntityToDomain(savedEntity)
+        val entity = mapper.fromDomainToEntity(request)
+        return run {
+            val savedEntity = saveEntity(entity)
+            mapper.fromEntityToDomain(savedEntity)
         }
     }
 
     override fun saveAll(request: List<Video>): List<Video> {
-        request.let { it ->
-            val entities = it.map { mapper.fromDomainToEntity(it) }
+        val entities = request.map { mapper.fromDomainToEntity(it) }
+        return request.let {
             val savedEntities = saveAllEntities(entities)
-            return savedEntities.map { mapper.fromEntityToDomain(it) }
+            savedEntities.map { mapper.fromEntityToDomain(it) }
         }
     }
 
@@ -67,9 +68,8 @@ class VideoService @Autowired constructor(
     override fun update(id: Long, request: Video): Video {
         id.let {
             val entity = getEntityById(it)
-            val updatedEntity = mapper.mergeEntityAndRequest(entity, request)
-            val savedEntity = saveEntity(updatedEntity)
-            return mapper.fromEntityToDomain(savedEntity)
+            val mergedEntity = mapper.mergeEntityAndRequest(entity, request)
+            return updateEntity(mergedEntity)
         }
     }
 
