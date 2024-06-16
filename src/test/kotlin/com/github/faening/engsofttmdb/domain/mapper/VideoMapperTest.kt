@@ -14,12 +14,14 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.util.*
 
-@SpringBootTest(properties = ["spring.profiles.active=test"])
+@SpringBootTest
+@ActiveProfiles("test")
 class VideoMapperTest {
 
     private lateinit var apiData: VideoApiData

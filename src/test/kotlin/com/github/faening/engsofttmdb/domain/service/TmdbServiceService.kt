@@ -17,10 +17,12 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import retrofit2.Call
 import retrofit2.Response
 
-@SpringBootTest(properties = ["spring.profiles.active=test"])
+@SpringBootTest
+@ActiveProfiles("test")
 class TmdbServiceService {
 
     private lateinit var tmdbApi: TmdbApi

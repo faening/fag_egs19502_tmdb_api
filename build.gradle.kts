@@ -1,3 +1,4 @@
+import org.gradle.configurationcache.extensions.fileSystemEntryType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -19,6 +20,19 @@ java {
 
 repositories {
 	mavenCentral()
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir("src/main/resources")
+		}
+	}
+	test {
+		resources {
+			srcDir("src/test/resources")
+		}
+	}
 }
 
 dependencies {
@@ -73,4 +87,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.withType<Copy>().configureEach {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
