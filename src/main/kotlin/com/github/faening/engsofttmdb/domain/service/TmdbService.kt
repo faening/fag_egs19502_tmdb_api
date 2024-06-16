@@ -1,6 +1,5 @@
 package com.github.faening.engsofttmdb.domain.service
 
-import com.github.faening.engsofttmdb.data.service.TmdbApi
 import com.github.faening.engsofttmdb.data.model.api.authentication.AuthenticationApiData
 import com.github.faening.engsofttmdb.data.model.api.credits.CreditsApiData
 import com.github.faening.engsofttmdb.data.model.api.genres.GenreApiData
@@ -9,6 +8,7 @@ import com.github.faening.engsofttmdb.data.model.api.movie.MovieApiData
 import com.github.faening.engsofttmdb.data.model.api.reviews.ReviewApiData
 import com.github.faening.engsofttmdb.data.model.api.videos.VideoApiData
 import com.github.faening.engsofttmdb.data.model.db.*
+import com.github.faening.engsofttmdb.data.service.TmdbApi
 import com.github.faening.engsofttmdb.domain.mapper.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -19,7 +19,7 @@ class TmdbService @Autowired constructor(
     private val tmdbApi: TmdbApi,
     private val genreService: GenreService,
     private val genreMapper: GenreMapper,
-    private val movieService: MovieService<Any?, Any?, Any?>,
+    private val movieService: MovieService,
     private val movieMapper: MovieMapper,
     private val castService: CastService,
     private val castMapper: CastMapper,
@@ -29,7 +29,7 @@ class TmdbService @Autowired constructor(
     private val authorDetailsMapper: AuthorDetailsMapper,
     private val reviewService: ReviewService,
     private val reviewMapper: ReviewMapper,
-    private val videoService: VideoService<Any?, Any?, Any?>,
+    private val videoService: VideoService,
     private val videoMapper: VideoMapper
 ) {
 

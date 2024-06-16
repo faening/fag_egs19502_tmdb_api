@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/movies")
 class MovieController @Autowired constructor(
-    private val service: MovieService<MovieEntity, Movie, Movie>
+    private val service: MovieService
 ) : BaseController<MovieEntity, Movie, Movie>(service) {
 
     @GetMapping("/{movieId}/casts")

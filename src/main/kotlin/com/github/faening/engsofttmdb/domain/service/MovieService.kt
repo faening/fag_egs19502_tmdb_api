@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class MovieService<T, U, V> @Autowired constructor(
+class MovieService @Autowired constructor(
     private val repository: MovieRepository,
     private val mapper: MovieMapper,
     private val castMapper: CastMapper,

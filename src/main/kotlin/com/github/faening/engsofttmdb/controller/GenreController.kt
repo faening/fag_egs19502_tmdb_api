@@ -2,7 +2,7 @@ package com.github.faening.engsofttmdb.controller
 
 import com.github.faening.engsofttmdb.data.model.db.GenreEntity
 import com.github.faening.engsofttmdb.domain.model.Genre
-import com.github.faening.engsofttmdb.domain.contract.BaseService
+import com.github.faening.engsofttmdb.domain.service.GenreService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/genres")
 class GenreController @Autowired constructor(
-    service: BaseService<GenreEntity, Genre, Genre>
+    service: GenreService
 ) : BaseController<GenreEntity, Genre, Genre>(service)

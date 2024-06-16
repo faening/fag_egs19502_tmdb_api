@@ -5,7 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CrewRepository : JpaRepository<CrewEntity, Long> {
-    fun existsByTmdbId(tmdbId: Long): Boolean
-    fun findByTmdbId(tmdbId: Long): CrewEntity?
-}
+interface CrewRepository : JpaRepository<CrewEntity, Long>

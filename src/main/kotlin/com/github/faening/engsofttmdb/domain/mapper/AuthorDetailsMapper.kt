@@ -54,6 +54,7 @@ class AuthorDetailsMapper : BaseMapper<AuthorDetailsApiData, AuthorDetailsEntity
         )
     }
 
+    @Suppress("USELESS_ELVIS")
     override fun mergeEntityAndRequest(entity: AuthorDetailsEntity, request: AuthorDetails): AuthorDetailsEntity {
         return AuthorDetailsEntity(
             id = entity.id,

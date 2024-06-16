@@ -5,19 +5,14 @@ import com.github.faening.engsofttmdb.data.repository.VideoRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.VideoMapper
 import com.github.faening.engsofttmdb.domain.model.Video
-import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class VideoService<T, U, V> @Autowired constructor(
+class VideoService @Autowired constructor(
     private val repository: VideoRepository,
     private val mapper: VideoMapper
 ) : BaseService<VideoEntity, Video, Video> {
-
-    @PersistenceContext
-    private lateinit var entityManager: EntityManager
 
     override fun getAllEntities(): List<VideoEntity> {
         return repository.findAll()
@@ -40,9 +35,6 @@ class VideoService<T, U, V> @Autowired constructor(
     }
 
     override fun saveEntity(entity: VideoEntity): VideoEntity {
-//        if (entity.id != null && entityManager.contains(entity).not()) {
-//            return repository.save(entityManager.merge(entity))
-//        }
         return repository.save(entity)
     }
 
@@ -58,7 +50,7 @@ class VideoService<T, U, V> @Autowired constructor(
     }
 
     override fun saveAll(request: List<Video>): List<Video> {
-        request.let {
+        request.let { it ->
             val entities = it.map { mapper.fromDomainToEntity(it) }
             val savedEntities = saveAllEntities(entities)
             return savedEntities.map { mapper.fromEntityToDomain(it) }

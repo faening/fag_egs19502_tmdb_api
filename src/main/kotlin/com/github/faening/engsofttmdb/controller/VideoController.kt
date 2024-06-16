@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/videos")
 class VideoController @Autowired constructor(
-    service: VideoService<VideoEntity, Video, Video>
+    service: VideoService
 ) : BaseController<VideoEntity, Video, Video>(service)

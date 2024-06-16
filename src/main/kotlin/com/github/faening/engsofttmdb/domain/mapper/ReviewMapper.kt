@@ -7,12 +7,13 @@ import com.github.faening.engsofttmdb.data.repository.AuthorDetailsRepository
 import com.github.faening.engsofttmdb.data.repository.MovieRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Review
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 
 @Service
-class ReviewMapper(
+class ReviewMapper @Autowired constructor(
     private val authorDetailsRepository: AuthorDetailsRepository,
     private val authorDetailsMapper: AuthorDetailsMapper,
     private val movieRepository: MovieRepository

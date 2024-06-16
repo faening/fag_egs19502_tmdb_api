@@ -86,9 +86,4 @@ class CrewService @Autowired constructor(
         return deleteEntity(entity)
     }
 
-    fun findByTmdbId(tmdbId: Long): CrewEntity? {
-        val entity = repository.findByTmdbId(tmdbId)
-        return entity
-    }
-
 }

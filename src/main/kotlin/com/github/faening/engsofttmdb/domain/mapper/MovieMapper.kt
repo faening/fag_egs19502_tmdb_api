@@ -7,12 +7,13 @@ import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.data.repository.GenreRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Movie
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
-class MovieMapper(
+class MovieMapper @Autowired constructor(
     private val genreRepository: GenreRepository,
     private val genreMapper: GenreMapper,
 ) : BaseMapper<MovieApiData, MovieEntity, Movie> {

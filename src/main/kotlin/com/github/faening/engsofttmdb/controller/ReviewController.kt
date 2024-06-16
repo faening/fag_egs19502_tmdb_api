@@ -1,8 +1,8 @@
 package com.github.faening.engsofttmdb.controller
 
 import com.github.faening.engsofttmdb.data.model.db.ReviewEntity
-import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.model.Review
+import com.github.faening.engsofttmdb.domain.service.ReviewService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/reviews")
 class ReviewController @Autowired constructor(
-    service: BaseService<ReviewEntity, Review, Review>
+    service: ReviewService
 ) : BaseController<ReviewEntity, Review, Review>(service)

@@ -5,8 +5,6 @@ import com.github.faening.engsofttmdb.data.repository.ReviewRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
 import com.github.faening.engsofttmdb.domain.mapper.ReviewMapper
 import com.github.faening.engsofttmdb.domain.model.Review
-import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -15,9 +13,6 @@ class ReviewService @Autowired constructor(
     private val repository: ReviewRepository,
     private val mapper: ReviewMapper
 ) : BaseService<ReviewEntity, Review, Review> {
-
-    @PersistenceContext
-    private lateinit var entityManager: EntityManager
 
     override fun getAllEntities(): List<ReviewEntity> {
         return repository.findAll()
@@ -40,9 +35,6 @@ class ReviewService @Autowired constructor(
     }
 
     override fun saveEntity(entity: ReviewEntity): ReviewEntity {
-        if (entity.id != null && entityManager.contains(entity).not()) {
-            return repository.save(entityManager.merge(entity))
-        }
         return repository.save(entity)
     }
 

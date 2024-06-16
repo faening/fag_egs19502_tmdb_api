@@ -6,12 +6,13 @@ import com.github.faening.engsofttmdb.data.model.db.VideoEntity
 import com.github.faening.engsofttmdb.data.repository.MovieRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseMapper
 import com.github.faening.engsofttmdb.domain.model.Video
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 
 @Service
-class VideoMapper(
+class VideoMapper @Autowired constructor(
     private val movieRepository: MovieRepository
 ) : BaseMapper<VideoApiData, VideoEntity, Video> {
 
