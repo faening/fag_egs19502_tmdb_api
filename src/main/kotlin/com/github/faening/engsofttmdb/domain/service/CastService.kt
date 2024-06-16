@@ -39,7 +39,7 @@ class CastService @Autowired constructor(
     }
 
     override fun saveAllEntities(entities: List<CastEntity>): List<CastEntity> {
-        return entities.map { saveEntity(it) }
+        return repository.saveAll(entities)
     }
 
     override fun save(request: Cast): Cast? {
@@ -50,11 +50,12 @@ class CastService @Autowired constructor(
         }
     }
 
-    override fun saveAll(request: List<Cast>): List<Cast> {
+    override fun saveAll(request: List<Cast>): List<Cast>? {
         val entities = request.map { mapper.fromDomainToEntity(it) }
-        val savedEntities = saveAllEntities(entities)
-        val mappedDomains = savedEntities.map { mapper.fromEntityToDomain(it) }
-        return mappedDomains
+        return request.let {
+            val savedEntities = saveAllEntities(entities)
+            savedEntities.map { mapper.fromEntityToDomain(it) }
+        }
     }
 
     override fun updateEntity(entity: CastEntity): Cast {
