@@ -1,10 +1,12 @@
 package com.github.faening.engsofttmdb.domain.service
 
-import com.github.faening.engsofttmdb.data.model.db.*
-import com.github.faening.engsofttmdb.data.repository.ReviewRepository
-import com.github.faening.engsofttmdb.domain.mapper.ReviewMapper
-import com.github.faening.engsofttmdb.domain.model.AuthorDetails
-import com.github.faening.engsofttmdb.domain.model.Review
+import com.github.faening.engsofttmdb.data.model.db.GenreEntity
+import com.github.faening.engsofttmdb.data.model.db.MetadataEntity
+import com.github.faening.engsofttmdb.data.model.db.MovieEntity
+import com.github.faening.engsofttmdb.data.model.db.VideoEntity
+import com.github.faening.engsofttmdb.data.repository.VideoRepository
+import com.github.faening.engsofttmdb.domain.mapper.VideoMapper
+import com.github.faening.engsofttmdb.domain.model.Video
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -19,27 +21,27 @@ import java.time.LocalDateTime
 import java.util.*
 
 @SpringBootTest(properties = ["spring.profiles.active=test"])
-class ReviewServiceTest {
+class VideoServiceTest {
 
-    private lateinit var repository: ReviewRepository
-    private lateinit var mapper: ReviewMapper
-    private lateinit var service: ReviewService
+    private lateinit var repository: VideoRepository
+    private lateinit var mapper: VideoMapper
+    private lateinit var service: VideoService
 
-    private lateinit var serviceSpy: ReviewService
+    private lateinit var serviceSpy: VideoService
 
-    private var expectedEntity: MutableList<ReviewEntity> = mutableListOf()
-    private var expectedValueObject: MutableList<Review> = mutableListOf()
+    private var expectedEntity: MutableList<VideoEntity> = mutableListOf()
+    private var expectedValueObject: MutableList<Video> = mutableListOf()
 
     @BeforeEach
     fun setUp() {
-        repository = Mockito.mock(ReviewRepository::class.java)
-        mapper = Mockito.mock(ReviewMapper::class.java)
-        service = ReviewService(repository, mapper)
+        repository = Mockito.mock(VideoRepository::class.java)
+        mapper = Mockito.mock(VideoMapper::class.java)
+        service = VideoService(repository, mapper)
 
         serviceSpy = Mockito.spy(service)
 
         expectedEntity = mutableListOf(
-            ReviewEntity(
+            VideoEntity(
                 id = 1L,
                 movie = MovieEntity(
                     id = 1L,
@@ -77,38 +79,33 @@ class ReviewServiceTest {
                         updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
                     )
                 ),
-                author = "author_1",
-                authorDetails = AuthorDetailsEntity(
-                    id = 1L,
-                    name = "author_1",
-                    username = "author_1",
-                    avatarPath = "/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg",
-                    rating = 5,
-                    metadata = MetadataEntity(
-                        createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
-                        updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
-                    )
-                ),
-                content = "is a heartwarming and imaginative sequel that successfully",
-                tmdbId = "666193da58a1f88965b77e41",
-                url = "https://www.themoviedb.org/review/666193da58a1f88965b77e41",
+                iso6391 = "pt",
+                iso31661 = "BR",
+                name = "movie_1",
+                videoKey = "uyzQw8-8k9U",
+                site = "YouTube",
+                size = 1080,
+                type = "type",
+                official = false,
+                publishedAt = "2024-06-07T00:37:41.000Z",
+                tmdbId = "6662b013eba41395c5528e84",
                 metadata = MetadataEntity(
                     createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                     updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
                 )
             ),
-            ReviewEntity(
+            VideoEntity(
                 id = 2L,
                 movie = MovieEntity(
                     id = 2L,
-                    tmdbId = 653346,
+                    tmdbId = 573435,
                     adult = false,
                     backdropPath = "/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg",
                     genres = hashSetOf(
                         GenreEntity(
                             id = 2L,
-                            tmdbId = 15,
-                            name = "Aventura",
+                            tmdbId = 16,
+                            name = "Romance",
                             movies = emptySet(),
                             metadata = MetadataEntity(
                                 createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
@@ -135,64 +132,53 @@ class ReviewServiceTest {
                         updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
                     )
                 ),
-                author = "author_2",
-                authorDetails = AuthorDetailsEntity(
-                    id = 2L,
-                    name = "author_2",
-                    username = "author_2",
-                    avatarPath = "/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg",
-                    rating = 5,
-                    metadata = MetadataEntity(
-                        createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
-                        updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
-                    )
-                ),
-                content = "is a heartwarming and imaginative sequel that successfully",
-                tmdbId = "666193da58a1f88965b77e41",
-                url = "https://www.themoviedb.org/review/666193da58a1f88965b77e41",
+                iso6391 = "pt",
+                iso31661 = "BR",
+                name = "movie_2",
+                videoKey = "uskbXdnbcvg",
+                site = "YouTube",
+                size = 1080,
+                type = "type",
+                official = false,
+                publishedAt = "2024-06-07T00:37:41.000Z",
+                tmdbId = "6662b013eba41395c5528e84",
                 metadata = MetadataEntity(
                     createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                     updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
                 )
-            ),
+            )
         )
 
         expectedValueObject = mutableListOf(
-            Review(
+            Video(
                 id = 1L,
-                movieId = 1L,
-                author = "author_1",
-                authorDetails = AuthorDetails(
-                    id = 1L,
-                    name = "author_1",
-                    username = "author_1",
-                    avatarPath = "/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg",
-                    rating = 5,
-                    createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
-                    updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
-                ),
-                content = "is a heartwarming and imaginative sequel that successfully",
-                tmdbId = "666193da58a1f88965b77e41",
-                url = "https://www.themoviedb.org/review/666193da58a1f88965b77e41",
+                movieId = 1,
+                iso6391 = "pt",
+                iso31661 = "BR",
+                name = "movie_1",
+                videoKey = "uskbXdnbcvg",
+                site = "YouTube",
+                size = 1080,
+                type = "type",
+                official = false,
+                publishedAt = "2024-06-07T00:37:41.000Z",
+                tmdbId = "6662b013eba41395c5528e84",
                 createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                 updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
             ),
-            Review(
+            Video(
                 id = 2L,
-                movieId = 2L,
-                author = "author_2",
-                authorDetails = AuthorDetails(
-                    id = 2L,
-                    name = "author_2",
-                    username = "author_2",
-                    avatarPath = "/5LdGr01PGRmrg6Hh3LYPGlOOdUx.jpg",
-                    rating = 5,
-                    createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
-                    updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
-                ),
-                content = "is a heartwarming and imaginative sequel that successfully",
-                tmdbId = "666193da58a1f88965b77e41",
-                url = "https://www.themoviedb.org/review/666193da58a1f88965b77e41",
+                movieId = 2,
+                iso6391 = "pt",
+                iso31661 = "BR",
+                name = "movie_2",
+                videoKey = "uyzQw8-8k9U",
+                site = "YouTube",
+                size = 1080,
+                type = "type",
+                official = false,
+                publishedAt = "2024-06-07T00:37:41.000Z",
+                tmdbId = "6662b013eba41395c5528e84",
                 createdAt = LocalDateTime.parse("2024-06-15T21:25:08"),
                 updatedAt = LocalDateTime.parse("2024-06-15T21:25:08")
             )
@@ -202,43 +188,43 @@ class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar uma lista de entidades do tipo `ReviewEntity`")
-    fun getAllEntities_ShouldReturnListOfReviewEntities_WhenRequestIsSuccessful() {
+    @DisplayName("Deve retornar uma lista de entidades do tipo `VideoEntity`")
+    fun getAllEntities_ShouldReturnListOfVideoEntities_WhenRequestIsSuccessful() {
         val expected = expectedEntity
         `when`(repository.findAll()).thenReturn(expected)
 
         val actual = serviceSpy.getAllEntities()
 
-        assertEquals(expected, actual, "Deve retornar uma lista de entidades do tipo `ReviewEntity`")
+        assertEquals(expected, actual, "Deve retornar uma lista de entidades do tipo `VideoEntity`")
     }
 
     @Test
-    @DisplayName("Deve retornar uma lista de `Review`")
-    fun getAll_ShouldReturnListOfReview_WhenRequestIsSuccessful() {
+    @DisplayName("Deve retornar uma lista de `Video`")
+    fun getAll_ShouldReturnListOfVideo_WhenRequestIsSuccessful() {
         val expectedEntities = expectedEntity
         val expected = expectedEntities.map { mapper.fromEntityToDomain(it) }
         `when`(repository.findAll()).thenReturn(expectedEntities)
 
         val actual = serviceSpy.getAll()
 
-        assertEquals(expected, actual, "Deve retornar uma lista de `Review`")
+        assertEquals(expected, actual, "Deve retornar uma lista de `Video`")
     }
 
     @Test
-    @DisplayName("Deve retornar uma entidade `ReviewEntity` pelo ID")
-    fun getEntityById_ShouldReturnReviewEntity_WhenIdIsGiven() {
+    @DisplayName("Deve retornar uma entidade `VideoEntity` pelo ID")
+    fun getEntityById_ShouldReturnVideoEntity_WhenIdIsGiven() {
         val expected = expectedEntity.first()
         val id = expected.id
         `when`(id?.let { repository.findById(it) }).thenReturn(Optional.of(expected))
 
         val actual = id?.let { serviceSpy.getEntityById(it) }
 
-        assertEquals(expected, actual, "Deve retornar uma entidade `ReviewEntity` pelo ID")
+        assertEquals(expected, actual, "Deve retornar uma entidade `VideoEntity` pelo ID")
     }
 
     @Test
-    @DisplayName("Deve retornar um `Review` pelo ID")
-    fun getById_ShouldReturnReview_WhenIdIsGiven() {
+    @DisplayName("Deve retornar um `Video` pelo ID")
+    fun getById_ShouldReturnVideo_WhenIdIsGiven() {
         val expectedEntity = expectedEntity.first()
         val id = expectedEntity.id
         val expected = mapper.fromEntityToDomain(expectedEntity)
@@ -246,34 +232,34 @@ class ReviewServiceTest {
 
         val actual = id?.let { serviceSpy.getById(it) }
 
-        assertEquals(expected, actual, "Deve retornar um `Review` pelo ID")
+        assertEquals(expected, actual, "Deve retornar um `Video` pelo ID")
     }
 
     @Test
-    @DisplayName("Deve salvar uma entidade `ReviewEntity`")
-    fun saveEntity_ShouldSaveReviewEntity_WhenEntityIsGiven() {
+    @DisplayName("Deve salvar uma entidade `VideoEntity`")
+    fun saveEntity_ShouldSaveVideoEntity_WhenEntityIsGiven() {
         val expected = expectedEntity.first()
         `when`(repository.save(expected)).thenReturn(expected)
 
         val actual = serviceSpy.saveEntity(expected)
 
-        assertEquals(expected, actual, "Deve salvar uma entidade `ReviewEntity`")
+        assertEquals(expected, actual, "Deve salvar uma entidade `VideoEntity`")
     }
 
     @Test
-    @DisplayName("Deve salvar uma lista de `ReviewEntity`")
-    fun saveAllEntities_ShouldSaveListOfReviewEntities_WhenListOfEntitiesIsGiven() {
+    @DisplayName("Deve salvar uma lista de `VideoEntity`")
+    fun saveAllEntities_ShouldSaveListOfVideoEntities_WhenListOfEntitiesIsGiven() {
         val expected = expectedEntity
         `when`(repository.saveAll(expected)).thenReturn(expected)
 
         val actual = serviceSpy.saveAllEntities(expected)
 
-        assertEquals(expected, actual, "Deve salvar uma lista de `ReviewEntity`")
+        assertEquals(expected, actual, "Deve salvar uma lista de `VideoEntity`")
     }
 
     @Test
-    @DisplayName("Deve salvar um `Review`")
-    fun save_ShouldSaveReview_WhenRequestIsGiven() {
+    @DisplayName("Deve salvar um `Video`")
+    fun save_ShouldSaveVideo_WhenRequestIsGiven() {
         val request = expectedValueObject.first()
         val entity = mapper.fromDomainToEntity(request)
 
@@ -286,13 +272,13 @@ class ReviewServiceTest {
 
             val actual = serviceSpy.save(request)
 
-            assertEquals(expected, actual, "Deve salvar um `Review`")
+            assertEquals(expected, actual, "Deve salvar um `Video`")
         }
     }
 
     @Test
-    @DisplayName("Deve salvar uma lista de `Review`")
-    fun saveAll_ShouldSaveListOfReview_WhenListOfRequestsIsGiven() {
+    @DisplayName("Deve salvar uma lista de `Video`")
+    fun saveAll_ShouldSaveListOfVideo_WhenListOfRequestsIsGiven() {
         val request = expectedValueObject
         val entities = request.map { mapper.fromDomainToEntity(it) }
         val expected = entities.map { mapper.fromEntityToDomain(it) }
@@ -309,12 +295,12 @@ class ReviewServiceTest {
 
         val actual = serviceSpy.saveAll(request)
 
-        assertEquals(expected, actual, "Deve salvar uma lista de `Review`")
+        assertEquals(expected, actual, "Deve salvar uma lista de `Video`")
     }
 
     @Test
-    @DisplayName("Deve atualizar uma entidade `ReviewEntity`")
-    fun updateEntity_ShouldUpdateReviewEntity_WhenEntityIsGiven() {
+    @DisplayName("Deve atualizar uma entidade `VideoEntity`")
+    fun updateEntity_ShouldUpdateVideoEntity_WhenEntityIsGiven() {
         val entity = expectedEntity.first()
         val expected = mapper.fromEntityToDomain(entity)
         `when`(repository.save(entity)).thenReturn(entity)
@@ -322,19 +308,19 @@ class ReviewServiceTest {
 
         val actual = serviceSpy.updateEntity(entity)
 
-        assertEquals(expected, actual, "Deve atualizar uma entidade `ReviewEntity`")
+        assertEquals(expected, actual, "Deve atualizar uma entidade `VideoEntity`")
     }
 
     @Test
-    @DisplayName("Deve atualizar um `Review`")
-    fun update_ShouldUpdateReview_WhenIdAndRequestAreGiven() {
+    @DisplayName("Deve atualizar um `Video`")
+    fun update_ShouldUpdateVideo_WhenIdAndRequestAreGiven() {
         val id = 1L
         val request = expectedValueObject.first()
         val entity = mapper.fromDomainToEntity(request)
 
         @Suppress("SENSELESS_COMPARISON")
         if (entity != null) {
-            val mergedEntity = entity.copy(author = "author_updated")
+            val mergedEntity = entity.copy(name = "author_updated")
             val expected = mapper.fromEntityToDomain(mergedEntity)
 
             `when`(serviceSpy.getEntityById(id)).thenReturn(entity)
@@ -343,23 +329,23 @@ class ReviewServiceTest {
 
             val actual = serviceSpy.update(id, request)
 
-            assertEquals(expected, actual, "Deve atualizar um `Review`")
+            assertEquals(expected, actual, "Deve atualizar um `Video`")
         }
     }
 
     @Test
-    @DisplayName("Deve deletar uma entidade `ReviewEntity`")
-    fun deleteEntity_ShouldDeleteReviewEntity_WhenEntityIsGiven() {
+    @DisplayName("Deve deletar uma entidade `VideoEntity`")
+    fun deleteEntity_ShouldDeleteVideoEntity_WhenEntityIsGiven() {
         val entity = expectedEntity.first()
         val actual = serviceSpy.deleteEntity(entity)
 
         verify(repository).delete(entity)
-        assertTrue(actual, "Deve deletar uma entidade `ReviewEntitys`")
+        assertTrue(actual, "Deve deletar uma entidade `VideoEntitys`")
     }
 
     @Test
-    @DisplayName("Deve deletar um `Review` pelo ID")
-    fun delete_ShouldDeleteReview_WhenIdIsGiven() {
+    @DisplayName("Deve deletar um `Video` pelo ID")
+    fun delete_ShouldDeleteVideo_WhenIdIsGiven() {
         val id = 1L
         val entity = expectedEntity.first()
 
@@ -370,7 +356,7 @@ class ReviewServiceTest {
 
         verify(serviceSpy).getEntityById(id)
         verify(serviceSpy).deleteEntity(entity)
-        assertTrue(actual, "Deve deletar um `Review` pelo ID")
+        assertTrue(actual, "Deve deletar um `Video` pelo ID")
     }
 
 }
