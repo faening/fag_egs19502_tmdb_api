@@ -13,7 +13,6 @@ import com.github.faening.engsofttmdb.domain.mapper.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
-@Suppress("unused")
 @Service
 class TmdbService @Autowired constructor(
     private val tmdbApi: TmdbApi,
@@ -33,7 +32,7 @@ class TmdbService @Autowired constructor(
     private val videoMapper: VideoMapper
 ) {
 
-    fun initialize() {
+    fun fetchDataAndPopulateLocalDatabase() {
         fetchGenresAndSaveInLocalDatabase()
         fetchMoviesAndSaveInLocalDatabase()
     }
@@ -83,8 +82,9 @@ class TmdbService @Autowired constructor(
         }.toMutableList()
     }
 
-    private fun saveAuthorDetails(authorDetails: AuthorDetailsEntity) : AuthorDetailsEntity {
-        val existingAuthorDetails: AuthorDetailsEntity? = authorDetailsService.findByNameOrUsernameIgnoreCase(authorDetails.name, authorDetails.username)
+    private fun saveAuthorDetails(authorDetails: AuthorDetailsEntity): AuthorDetailsEntity {
+        val existingAuthorDetails: AuthorDetailsEntity? =
+            authorDetailsService.findByNameOrUsernameIgnoreCase(authorDetails.name, authorDetails.username)
         return existingAuthorDetails ?: authorDetailsService.saveEntity(authorDetails)
     }
 
@@ -122,7 +122,7 @@ class TmdbService @Autowired constructor(
      *
      * @return Retorna um objeto do tipo GenrePageApiData.
      */
-    fun getAllGenres(): GenresPageApiData {
+    private fun getAllGenres(): GenresPageApiData {
         var genreData = GenresPageApiData(emptyList())
         val call = tmdbApi.getAllGenres()
 
@@ -143,7 +143,7 @@ class TmdbService @Autowired constructor(
      *
      * @return Retorna uma lista de objetos do tipo MovieData.
      */
-    fun getAllMovies(): List<MovieApiData> {
+    private fun getAllMovies(): List<MovieApiData> {
         var movieApiData = emptyList<MovieApiData>()
         val call = tmdbApi.getAllMovies()
 
@@ -165,7 +165,7 @@ class TmdbService @Autowired constructor(
      * @param tmdbId ID do filme.
      * @return Retorna um objeto do tipo CreditsData.
      */
-    fun getMovieCredits(tmdbId: Long): CreditsApiData {
+    private fun getMovieCredits(tmdbId: Long): CreditsApiData {
         var creditsApiData = CreditsApiData(movieId = 0, cast = emptyList(), crew = emptyList())
         val call = tmdbApi.getMovieCredits(tmdbId)
 
@@ -187,7 +187,7 @@ class TmdbService @Autowired constructor(
      * @param movieId ID do filme.
      * @return Retorna um objeto do tipo ReviewData.
      */
-    fun getMovieReviews(movieId: Long): List<ReviewApiData> {
+    private fun getMovieReviews(movieId: Long): List<ReviewApiData> {
         var reviewApiData = emptyList<ReviewApiData>()
         val call = tmdbApi.getMovieReviews(movieId)
 
@@ -209,7 +209,7 @@ class TmdbService @Autowired constructor(
      * @param movieId ID do filme.
      * @return Retorna um objeto do tipo VideoData.
      */
-    fun getMovieVideos(movieId: Long): List<VideoApiData> {
+    private fun getMovieVideos(movieId: Long): List<VideoApiData> {
         var videoApiData = emptyList<VideoApiData>()
         val call = tmdbApi.getMovieVideos(movieId)
 
