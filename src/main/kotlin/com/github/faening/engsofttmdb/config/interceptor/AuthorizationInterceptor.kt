@@ -1,10 +1,12 @@
 package com.github.faening.engsofttmdb.config.interceptor
 
+import io.github.cdimascio.dotenv.Dotenv
 import okhttp3.Interceptor
 
 class AuthorizationInterceptor : Interceptor {
 
-    private val tmdbApiToken = "ADD_TOKEN_HERE"
+    private val dotenv: Dotenv = Dotenv.load()
+    private val tmdbApiToken = dotenv.get("TMDB_API_TOKEN")
 
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         val original = chain.request()

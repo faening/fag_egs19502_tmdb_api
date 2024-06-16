@@ -49,6 +49,10 @@ dependencies {
 	implementation("io.projectreactor:reactor-core:3.6.6")
 	implementation("org.reactivestreams:reactive-streams:1.0.4")
 
+	// DotENV
+	// https://github.com/cdimascio/dotenv-kotlin
+	implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+
 	// JUnit 5
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
