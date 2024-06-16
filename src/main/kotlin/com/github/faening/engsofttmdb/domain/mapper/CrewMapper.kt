@@ -90,7 +90,10 @@ class CrewMapper : BaseMapper<CrewApiData, CrewEntity, Crew> {
             department = request.department ?: entity.department,
             job = request.job ?: entity.job,
             movies = entity.movies,
-            metadata = entity.metadata
+            metadata = MetadataEntity(
+                createdAt = entity.metadata?.createdAt ?: LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
         )
     }
 
