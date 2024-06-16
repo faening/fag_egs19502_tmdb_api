@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
 import java.util.*
 
-@SpringBootTest
+@SpringBootTest(properties = ["spring.profiles.active=test"])
 class AuthorDetailsServiceTest {
 
     private lateinit var repository: AuthorDetailsRepository

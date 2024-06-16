@@ -59,6 +59,9 @@ dependencies {
 
 	// Mockito
 	testImplementation("org.mockito:mockito-core:5.11.0")
+
+	// H2 For Testing
+	testImplementation("com.h2database:h2")
 }
 
 tasks.withType<KotlinCompile> {
