@@ -56,6 +56,9 @@ dependencies {
 	// JUnit 5
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	// Mockito
+	testImplementation("org.mockito:mockito-core:5.11.0")
 }
 
 tasks.withType<KotlinCompile> {
