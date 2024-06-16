@@ -1,7 +1,7 @@
 package com.github.faening.engsofttmdb.config
 
 import com.github.faening.engsofttmdb.config.interceptor.AuthorizationInterceptor
-import com.github.faening.engsofttmdb.data.api.TmdbApi
+import com.github.faening.engsofttmdb.data.service.TmdbApi
 import okhttp3.OkHttpClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

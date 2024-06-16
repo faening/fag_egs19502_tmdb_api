@@ -1,12 +1,13 @@
 package com.github.faening.engsofttmdb.domain.service
 
-import com.github.faening.engsofttmdb.data.api.TmdbApi
+import com.github.faening.engsofttmdb.data.service.TmdbApi
 import com.github.faening.engsofttmdb.data.model.api.authentication.AuthenticationApiData
 import com.github.faening.engsofttmdb.data.model.api.credits.CreditsApiData
 import com.github.faening.engsofttmdb.data.model.api.genres.GenreApiData
 import com.github.faening.engsofttmdb.data.model.api.genres.GenresPageApiData
 import com.github.faening.engsofttmdb.data.model.api.movie.MovieApiData
 import com.github.faening.engsofttmdb.data.model.api.reviews.ReviewApiData
+import com.github.faening.engsofttmdb.data.model.api.videos.VideoApiData
 import com.github.faening.engsofttmdb.data.model.db.*
 import com.github.faening.engsofttmdb.domain.mapper.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,7 +28,9 @@ class TmdbService @Autowired constructor(
     private val authorDetailsService: AuthorDetailsService,
     private val authorDetailsMapper: AuthorDetailsMapper,
     private val reviewService: ReviewService,
-    private val reviewMapper: ReviewMapper
+    private val reviewMapper: ReviewMapper,
+    private val videoService: VideoService<Any?, Any?, Any?>,
+    private val videoMapper: VideoMapper
 ) {
 
     fun initialize() {
@@ -50,7 +53,8 @@ class TmdbService @Autowired constructor(
             val updatedMovie = movie.copy(
                 casts = fetchAndSaveCasts(movie),
                 crews = fetchAndSaveCrews(movie),
-                reviews = fetchAndSaveReviews(movie)
+                reviews = fetchAndSaveReviews(movie),
+                videos = fetchAndSaveVideos(movie)
             )
             movieService.saveEntity(updatedMovie)
         }
@@ -82,6 +86,15 @@ class TmdbService @Autowired constructor(
     private fun saveAuthorDetails(authorDetails: AuthorDetailsEntity) : AuthorDetailsEntity {
         val existingAuthorDetails: AuthorDetailsEntity? = authorDetailsService.findByNameOrUsernameIgnoreCase(authorDetails.name, authorDetails.username)
         return existingAuthorDetails ?: authorDetailsService.saveEntity(authorDetails)
+    }
+
+    private fun fetchAndSaveVideos(movie: MovieEntity): MutableList<VideoEntity> {
+        val videos = getMovieVideos(movie.tmdbId!!)
+        return videos.map { video ->
+            val videoEntity: VideoEntity = videoMapper.fromApiDataToEntity(video)
+            videoEntity.movie = movie
+            videoService.saveEntity(videoEntity)
+        }.toMutableList()
     }
 
     /**
@@ -188,6 +201,28 @@ class TmdbService @Autowired constructor(
         }
 
         return reviewApiData
+    }
+
+    /**
+     * Este método realiza a busca dos vídeos de um filme específico na API do TMDB.
+     *
+     * @param movieId ID do filme.
+     * @return Retorna um objeto do tipo VideoData.
+     */
+    fun getMovieVideos(movieId: Long): List<VideoApiData> {
+        var videoApiData = emptyList<VideoApiData>()
+        val call = tmdbApi.getMovieVideos(movieId)
+
+        try {
+            val response = call.execute()
+            if (response.isSuccessful) {
+                videoApiData = response.body()?.results ?: emptyList()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return videoApiData
     }
 
 }

@@ -1,10 +1,7 @@
 package com.github.faening.engsofttmdb.controller
 
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
-import com.github.faening.engsofttmdb.domain.model.Cast
-import com.github.faening.engsofttmdb.domain.model.Crew
-import com.github.faening.engsofttmdb.domain.model.Movie
-import com.github.faening.engsofttmdb.domain.model.Review
+import com.github.faening.engsofttmdb.domain.model.*
 import com.github.faening.engsofttmdb.domain.service.MovieService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -36,6 +33,12 @@ class MovieController @Autowired constructor(
     fun getMovieReviews(@PathVariable movieId: Long): ResponseEntity<List<Review>> {
         val reviews = service.getMovieReviews(movieId)
         return ResponseEntity.ok(reviews)
+    }
+
+    @GetMapping("/{movieId}/videos")
+    fun getMovieVideos(@PathVariable movieId: Long): ResponseEntity<List<Video>> {
+        val videos = service.getMovieVideos(movieId)
+        return ResponseEntity.ok(videos)
     }
 
 }

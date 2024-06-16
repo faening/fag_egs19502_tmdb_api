@@ -5,12 +5,12 @@ import java.time.LocalDateTime
 
 data class Review(
     val id: Long?,
+    val movieId: Long?,
     val author: String,
     var authorDetails: AuthorDetails?,
     val content: String,
     val tmdbId: String?,
     val url: String?,
-    val movieId: Long?,
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 ) : Serializable {

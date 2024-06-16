@@ -79,6 +79,9 @@ data class MovieEntity(
     @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var reviews: MutableList<ReviewEntity>? = mutableListOf(),
 
+    @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var videos: MutableList<VideoEntity>? = mutableListOf(),
+
     @Embedded
     @AttributeOverrides(
         AttributeOverride(name = "createdAt", column = Column(name = "created_at")),

@@ -11,6 +11,10 @@ data class ReviewEntity(
     @Column(name = "id")
     val id: Long?,
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "movie_id")
+    var movie: MovieEntity?,
+
     @Column(name = "author", nullable = false, length = 100)
     val author: String,
 
@@ -26,10 +30,6 @@ data class ReviewEntity(
 
     @Column(name = "url", length = 100)
     val url: String?,
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "movie_id")
-    var movie: MovieEntity?,
 
     @Embedded
     @AttributeOverrides(

@@ -23,12 +23,12 @@ class ReviewMapper(
 
         return ReviewEntity(
             id = null,
+            movie = null,
             author = data.author,
             authorDetails = authorDetailsEntity,
             content = data.content,
             tmdbId = data.tmdbId,
             url = data.url,
-            movie = null,
             metadata = MetadataEntity(
                 createdAt = OffsetDateTime.parse(data.createdAt).toLocalDateTime() ?: LocalDateTime.now(),
                 updatedAt = OffsetDateTime.parse(data.updatedAt).toLocalDateTime() ?: LocalDateTime.now()
@@ -42,12 +42,12 @@ class ReviewMapper(
 
         return Review(
             id = entity.id,
+            movieId = entity.movie?.id,
             author = entity.author,
             authorDetails = authorDetails,
             content = entity.content,
             tmdbId = entity.tmdbId,
             url = entity.url,
-            movieId = entity.movie?.id,
             createdAt = entity.metadata?.createdAt,
             updatedAt = entity.metadata?.updatedAt
         )
@@ -59,12 +59,12 @@ class ReviewMapper(
 
         return ReviewEntity(
             id = domain.id,
+            movie = movieEntity,
             author = domain.author,
             authorDetails = authorDetailsEntity,
             content = domain.content,
             tmdbId = domain.tmdbId,
             url = domain.url,
-            movie = movieEntity,
             metadata = MetadataEntity(
                 createdAt = domain.createdAt ?: LocalDateTime.now(),
                 updatedAt = domain.updatedAt ?: LocalDateTime.now()
@@ -77,12 +77,12 @@ class ReviewMapper(
 
         return ReviewEntity(
             id = entity.id,
+            movie = entity.movie,
             author = request.author,
             authorDetails = authorDetailsEntity,
             content = request.content,
             tmdbId = request.tmdbId,
             url = request.url,
-            movie = entity.movie,
             metadata = MetadataEntity(
                 createdAt = entity.metadata?.createdAt ?: LocalDateTime.now(),
                 updatedAt = LocalDateTime.now()

@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS `review` (
     `id` BIGINT AUTO_INCREMENT,
+    `movie_id` BIGINT,
     `author` VARCHAR(100) NOT NULL,
     `author_details_id` BIGINT,
     `content` TEXT NOT NULL,
     `tmdb_id` VARCHAR(100),
     `url` VARCHAR(100),
-    `movie_id` BIGINT,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),

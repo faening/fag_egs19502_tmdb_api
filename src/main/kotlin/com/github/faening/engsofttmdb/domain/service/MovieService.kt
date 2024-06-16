@@ -3,14 +3,8 @@ package com.github.faening.engsofttmdb.domain.service
 import com.github.faening.engsofttmdb.data.model.db.MovieEntity
 import com.github.faening.engsofttmdb.data.repository.MovieRepository
 import com.github.faening.engsofttmdb.domain.contract.BaseService
-import com.github.faening.engsofttmdb.domain.mapper.CastMapper
-import com.github.faening.engsofttmdb.domain.mapper.CrewMapper
-import com.github.faening.engsofttmdb.domain.mapper.MovieMapper
-import com.github.faening.engsofttmdb.domain.mapper.ReviewMapper
-import com.github.faening.engsofttmdb.domain.model.Cast
-import com.github.faening.engsofttmdb.domain.model.Crew
-import com.github.faening.engsofttmdb.domain.model.Movie
-import com.github.faening.engsofttmdb.domain.model.Review
+import com.github.faening.engsofttmdb.domain.mapper.*
+import com.github.faening.engsofttmdb.domain.model.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -20,7 +14,8 @@ class MovieService<T, U, V> @Autowired constructor(
     private val mapper: MovieMapper,
     private val castMapper: CastMapper,
     private val crewMapper: CrewMapper,
-    private val reviewMapper: ReviewMapper
+    private val reviewMapper: ReviewMapper,
+    private val videoMapper: VideoMapper
 ) : BaseService<MovieEntity, Movie, Movie> {
 
     override fun getAllEntities(): List<MovieEntity> {
@@ -103,6 +98,12 @@ class MovieService<T, U, V> @Autowired constructor(
         val movie = getEntityById(movieId)
         val reviews = movie.reviews?.map { review -> reviewMapper.fromEntityToDomain(review) }
         return reviews ?: emptyList()
+    }
+
+    fun getMovieVideos(movieId: Long): List<Video> {
+        val movie = getEntityById(movieId)
+        val videos = movie.videos?.map { video -> videoMapper.fromEntityToDomain(video) }
+        return videos ?: emptyList()
     }
 
 }

@@ -1,4 +1,4 @@
-package com.github.faening.engsofttmdb.data.api
+package com.github.faening.engsofttmdb.data.service
 
 import com.github.faening.engsofttmdb.data.model.api.*
 import com.github.faening.engsofttmdb.data.model.api.authentication.AuthenticationApiData
@@ -6,6 +6,7 @@ import com.github.faening.engsofttmdb.data.model.api.credits.CreditsApiData
 import com.github.faening.engsofttmdb.data.model.api.genres.GenresPageApiData
 import com.github.faening.engsofttmdb.data.model.api.movie.MovieApiData
 import com.github.faening.engsofttmdb.data.model.api.reviews.ReviewApiData
+import com.github.faening.engsofttmdb.data.model.api.videos.VideosPageApiData
 import org.springframework.stereotype.Service
 import retrofit2.Call
 import retrofit2.http.GET
@@ -29,5 +30,8 @@ interface TmdbApi {
 
     @GET("movie/{movie_id}/reviews")
     fun getMovieReviews(@Path("movie_id") movieId: Long): Call<ResponsePageApiData<ReviewApiData>>
+
+    @GET("movie/{movie_id}/videos")
+    fun getMovieVideos(@Path("movie_id") movieId: Long): Call<VideosPageApiData>
 
 }
