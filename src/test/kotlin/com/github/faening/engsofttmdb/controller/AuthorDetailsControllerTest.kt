@@ -26,7 +26,6 @@ class AuthorDetailsControllerTest @Autowired constructor(
     private var objectMapper: ObjectMapper
 ) {
 
-    @Suppress("unused")
     @MockBean
     private lateinit var authorDetailsService: AuthorDetailsService
 
@@ -139,6 +138,5 @@ class AuthorDetailsControllerTest @Autowired constructor(
         )
             .andExpect(status().isNoContent)
     }
-
 
 }
