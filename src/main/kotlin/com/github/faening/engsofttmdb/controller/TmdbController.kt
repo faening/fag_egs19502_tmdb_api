@@ -21,7 +21,7 @@ class TmdbController @Autowired constructor(
     }
 
     @GetMapping("/populate")
-    fun init() {
+    fun populate() {
         tmdbService.fetchDataAndPopulateLocalDatabase()
     }
 
